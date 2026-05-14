@@ -383,16 +383,10 @@ const COURSES = [
     desc:'Унікальна програма підготовки вищого корпусу державних службовців. Стратегічне мислення, реформи, лідерство та публічні комунікації.',
     duration:'7 модулів', format:'Очно / Гібрид', year:'2025–2026',
     url:'https://kspa.com.ua/school-of-ministers/',
-    modules:[
-      { id:'module-1', label:'Модуль 1', title:'Система законодавства',   dates:'01–03 трав 2026',
-        csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQrUx_UBOP3R7izhHk0mQO4gMWKYzZzX97DrA_NR-fUyjDeIGb9g7qWGgZnQ8V57AwOQkztGvtCtsVH/pub?output=csv' },
-      { id:'module-2', label:'Модуль 2', title:'Стратегічне управління',  dates:'12–14 чер 2026', csvUrl:'' },
-      { id:'module-3', label:'Модуль 3', title:'Економічна політика',     dates:'03–05 лип 2026', csvUrl:'' },
-      { id:'module-4', label:'Модуль 4', title:'Публічні комунікації',    dates:'22–24 сер 2026', csvUrl:'' },
-      { id:'module-5', label:'Модуль 5', title:'Реформи та зміни',        dates:'10–12 вер 2026', csvUrl:'' },
-      { id:'module-6', label:'Модуль 6', title:'Міжнародна діяльність',   dates:'01–03 жов 2026', csvUrl:'' },
-      { id:'module-7', label:'Модуль 7', title:'Підсумковий проект',      dates:'14–16 лис 2026', csvUrl:'' },
-    ]
+    // ─── pubhtmlUrl: вставте посилання /pubhtml вашої Google Sheets таблиці.
+    // Сайт автоматично знайде всі аркуші (вкладки) і побудує модульні таби.
+    pubhtmlUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQrUx_UBOP3R7izhHk0mQO4gMWKYzZzX97DrA_NR-fUyjDeIGb9g7qWGgZnQ8V57AwOQkztGvtCtsVH/pubhtml',
+    modules:[] // автозаповнюється з аркушів таблиці
   },
   {
     id:'engineering-management', slug:'engineering-management',
@@ -753,13 +747,15 @@ function renderSocials(s){
 }
 
 function miniAv(photo,name){
-  if(photo&&photo.startsWith('http'))
-    return `<img class="av-s" src="${esc(photo)}" alt="${esc(name)}" loading="lazy" onerror="this.outerHTML='<div class=av-si>${ini(name)}</div>'">`;
+  const src=normalizePhotoUrl(photo);
+  if(src)
+    return `<img class="av-s" src="${esc(src)}" alt="${esc(name)}" loading="lazy" onerror="this.outerHTML='<div class=av-si>${ini(name)}</div>'">`;
   return `<div class="av-si">${ini(name)}</div>`;
 }
 function fullAv(photo,name){
-  if(photo&&photo.startsWith('http'))
-    return `<img src="${esc(photo)}" alt="${esc(name)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=sp-av-i>${ini(name)}</div>'">`;
+  const src=normalizePhotoUrl(photo);
+  if(src)
+    return `<img src="${esc(src)}" alt="${esc(name)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=sp-av-i>${ini(name)}</div>'">`;
   return `<div class="sp-av-i">${ini(name)}</div>`;
 }
 
@@ -788,57 +784,137 @@ function parseCSV(raw){
   return rows;
 }
 
-/* Normalize URL: pubhtml → pub?output=csv */
+/* ═══ GOOGLE DRIVE PHOTO URL NORMALIZER ════════════════════════════════
+   Converts any Google Drive share link to a direct image URL.
+   Handles: /file/d/ID/view, /open?id=ID, /uc?id=ID, plain ID strings
+═══════════════════════════════════════════════════════════════════════ */
+function normalizePhotoUrl(url){
+  if(!url||!url.trim())return'';
+  url=url.trim();
+  if(!url.startsWith('http'))return url; // already relative or empty
+
+  // Extract file ID from various Drive URL formats
+  let id=null;
+  const patterns=[
+    /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/,
+    /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/,
+    /drive\.google\.com\/uc\?.*[?&]id=([a-zA-Z0-9_-]+)/,
+    /docs\.google\.com\/.*\/d\/([a-zA-Z0-9_-]+)/,
+    /id=([a-zA-Z0-9_-]+)/,
+  ];
+  for(const re of patterns){
+    const m=url.match(re);
+    if(m){id=m[1];break;}
+  }
+  if(id) return `https://drive.google.com/thumbnail?id=${id}&sz=w300`;
+  return url; // not a Drive URL — return as-is
+}
+
+/* ═══ CSV URL NORMALIZER ════════════════════════════════════════════════ */
 function normalizeCsvUrl(url){
   if(!url)return url;
-  // /pubhtml → /pub?output=csv
-  url=url.replace(/\/pubhtml(\?.*)?$/,'/pub?output=csv');
-  // /pub?gid=... without output → add output=csv
+  url=url.replace(/\/pubhtml([?#].*)?$/,'/pub?output=csv');
   if(url.includes('/pub?')&&!url.includes('output=csv'))url+='&output=csv';
   return url;
+}
+
+/* ═══ FETCH CSV (multi-proxy fallback) ══════════════════════════════════ */
+async function fetchRaw(url){
+  const proxies=[
+    u=>u, // direct
+    u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
+    u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  ];
+  for(const mk of proxies){
+    try{
+      const r=await fetch(mk(url),{cache:'no-store'});
+      if(!r.ok)continue;
+      const text=await r.text();
+      if(text.trim().startsWith('<html')&&!text.includes(','))continue; // got HTML not CSV
+      return text;
+    }catch{/*try next*/}
+  }
+  return null;
 }
 
 async function fetchCSV(rawUrl){
   if(!rawUrl)return null;
   const url=normalizeCsvUrl(rawUrl);
   if(csvCache[url])return csvCache[url];
+  const text=await fetchRaw(url);
+  if(!text){console.error('All CSV fetches failed:',url);return null;}
+  const rows=parseCSV(text);
+  csvCache[url]=rows;
+  return rows;
+}
 
-  // Multiple CORS proxies as fallback
+/* ═══ FETCH SHEETS LIST from pubhtml ════════════════════════════════════
+   Parses the pubhtml page to discover all sheet tabs and their gid values.
+   Returns: [{name, gid}]  e.g. [{name:'МОДУЛЬ 1', gid:'0'}, ...]
+═══════════════════════════════════════════════════════════════════════ */
+async function fetchSheetsList(pubhtmlUrl){
+  const cacheKey='__sheets__'+pubhtmlUrl;
+  if(csvCache[cacheKey])return csvCache[cacheKey];
+
   const proxies=[
+    u=>u,
     u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
     u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-    u=>`https://cors-anywhere.herokuapp.com/${u}`,
   ];
 
-  const attempt=async(fetchUrl)=>{
-    const r=await fetch(fetchUrl,{cache:'no-store'});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const text=await r.text();
-    // Google Sheets pubhtml returns HTML when CORS fails — detect it
-    if(text.trim().startsWith('<'))throw new Error('Got HTML, not CSV');
-    return parseCSV(text);
-  };
-
-  // Try direct first
-  try{
-    const d=await attempt(url);
-    csvCache[url]=d;return d;
-  }catch(e0){
-    console.warn('Direct fetch failed:',e0.message);
+  let html=null;
+  for(const mk of proxies){
+    try{
+      const r=await fetch(mk(pubhtmlUrl),{cache:'no-store'});
+      if(!r.ok)continue;
+      const t=await r.text();
+      if(t.length>200){html=t;break;}
+    }catch{/*try next*/}
   }
 
-  // Try each proxy
-  for(const mkProxy of proxies){
-    try{
-      const d=await attempt(mkProxy(url));
-      csvCache[url]=d;return d;
-    }catch(ep){
-      console.warn('Proxy failed:',mkProxy(url).slice(0,60),ep.message);
+  if(!html)return null;
+
+  // Parse sheet tabs from pubhtml: <li id="sheet-button-NNN" ...>SheetName</li>
+  // or: <li class="... active ...">...</li> with data-id
+  const sheets=[];
+  const seen=new Set();
+
+  // Pattern 1: id="sheet-button-GIDNUMBER"
+  const re1=/id="sheet-button-([0-9]+)"[^>]*>([^<]+)</gi;
+  let m;
+  while((m=re1.exec(html))!==null){
+    const gid=m[1],name=m[2].trim();
+    if(!seen.has(gid)){seen.add(gid);sheets.push({name,gid});}
+  }
+
+  // Pattern 2: sheets named in li tags with onclick gid
+  if(!sheets.length){
+    const re2=/gid=([0-9]+)[^"]*"[^>]*>([^<]{2,40})</gi;
+    while((m=re2.exec(html))!==null){
+      const gid=m[1],name=m[2].trim();
+      if(!seen.has(gid)&&name&&!name.includes('{')){seen.add(gid);sheets.push({name,gid});}
     }
   }
 
-  console.error('All CSV fetches failed for:',url);
-  return null;
+  // Pattern 3: fallback — look for #gid= in anchors
+  if(!sheets.length){
+    const re3=/[#&]gid=([0-9]+)/gi;
+    while((m=re3.exec(html))!==null){
+      const gid=m[1];
+      if(!seen.has(gid)){seen.add(gid);sheets.push({name:'Модуль '+(seen.size),gid});}
+    }
+  }
+
+  if(!sheets.length)return null;
+  csvCache[cacheKey]=sheets;
+  return sheets;
+}
+
+/* Build CSV URL for a specific sheet gid from a pubhtml URL */
+function buildCsvUrl(pubhtmlUrl,gid){
+  // pubhtml base → pub base
+  const base=pubhtmlUrl.replace(/\/pubhtml([?#].*)?$/,'/pub');
+  return `${base}?output=csv&gid=${gid}`;
 }
 
 /* ═══ RENDER SCHEDULE ══════════════════════════════════════════════════ */
@@ -1007,8 +1083,49 @@ document.querySelectorAll('.filter-btn').forEach(btn=>{
   });
 });
 
+/* ═══ BUILD TABS from modules list ════════════════════════════════════ */
+function buildTabs(course, modules, urlModuleParam){
+  const tabsEl=document.getElementById('mod-tabs');
+  if(!modules.length){
+    tabsEl.innerHTML='';
+    document.getElementById('mod-content').innerHTML=stateH('📅','Модулі не додані',
+      `Модулі для цієї програми ще не сконфігуровано.<br><br><a href="${esc(course.url||'#')}" target="_blank" rel="noopener" style="color:var(--ac);font-size:12px">Детальніше на сайті КШДУ ↗</a>`);
+    return null;
+  }
+
+  tabsEl.innerHTML=modules.map((m,i)=>
+    `<button class="mt-tab${i===0?' active':''}" role="tab" aria-selected="${i===0}" data-mid="${m.id}" data-gid="${m.gid||''}">
+      ${esc(m.label)}
+      ${m.dates?`<span class="mt-dates">${esc(m.dates)}</span>`:''}
+    </button>`
+  ).join('');
+
+  tabsEl.querySelectorAll('.mt-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      tabsEl.querySelectorAll('.mt-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});
+      tab.classList.add('active');tab.setAttribute('aria-selected','true');
+      const m=modules.find(m=>m.id===tab.dataset.mid);
+      if(m){history.replaceState({course:course.slug,module:m.id},'',`?course=${course.slug}&module=${m.id}`);loadModule(m);}
+    });
+  });
+
+  // Activate URL-specified tab
+  let first=modules[0];
+  if(urlModuleParam){
+    const found=modules.find(m=>m.id===urlModuleParam);
+    if(found){
+      first=found;
+      tabsEl.querySelectorAll('.mt-tab').forEach(t=>{
+        const a=t.dataset.mid===urlModuleParam;
+        t.classList.toggle('active',a);t.setAttribute('aria-selected',String(a));
+      });
+    }
+  }
+  return first;
+}
+
 /* ═══ OPEN COURSE ═══════════════════════════════════════════════════════ */
-function openCourse(courseId){
+async function openCourse(courseId){
   const course=COURSES.find(c=>c.id===courseId);
   if(!course)return;
   currentCourse=course;
@@ -1025,52 +1142,42 @@ function openCourse(courseId){
     <span class="cp-dot">·</span><span>${esc(course.duration)}</span>
     <span class="cp-dot">·</span><span>${esc(course.year)}</span>`;
 
-  // Tabs
-  const tabsEl=document.getElementById('mod-tabs');
+  showPage('course-page');
+  window.scrollTo({top:0,behavior:'smooth'});
 
-  if(!course.modules.length){
-    tabsEl.innerHTML='';
-    document.getElementById('mod-content').innerHTML=stateH('📅','Модулі не додані',
-      `Модулі для цієї програми ще не сконфігуровано. Додайте CSV посилання у масив modules у конфізі.<br><br><a href="${esc(course.url||'#')}" target="_blank" rel="noopener" style="color:var(--ac);font-size:12px">Детальніше на сайті КШДУ ↗</a>`);
-    showPage('course-page');
-    window.scrollTo({top:0,behavior:'smooth'});
+  const up=new URLSearchParams(window.location.search);
+  const mp=up.get('module');
+
+  // ── Case A: course has pubhtmlUrl → discover sheets dynamically ──────
+  if(course.pubhtmlUrl){
+    document.getElementById('mod-tabs').innerHTML='';
+    document.getElementById('mod-content').innerHTML=loadH();
+
+    const sheets=await fetchSheetsList(course.pubhtmlUrl);
+
+    if(!sheets||!sheets.length){
+      document.getElementById('mod-content').innerHTML=stateH('⚠️','Не вдалося завантажити аркуші',
+        'Переконайтесь, що таблиця опублікована: File → Share → Publish to web.');
+      return;
+    }
+
+    // Build modules from discovered sheets
+    const dynModules=sheets.map((sh,i)=>({
+      id: 'sheet-'+sh.gid,
+      label: sh.name,
+      gid: sh.gid,
+      dates: '',
+      csvUrl: buildCsvUrl(course.pubhtmlUrl, sh.gid),
+    }));
+
+    const first=buildTabs(course, dynModules, mp);
+    if(first)loadModule(first);
     return;
   }
 
-  tabsEl.innerHTML=course.modules.map((m,i)=>
-    `<button class="mt-tab${i===0?' active':''}" role="tab" aria-selected="${i===0}" data-mid="${m.id}">
-      ${esc(m.label)}
-      ${m.dates?`<span class="mt-dates">${esc(m.dates)}</span>`:''}
-    </button>`
-  ).join('');
-
-  tabsEl.querySelectorAll('.mt-tab').forEach(tab=>{
-    tab.addEventListener('click',()=>{
-      tabsEl.querySelectorAll('.mt-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});
-      tab.classList.add('active');tab.setAttribute('aria-selected','true');
-      const m=course.modules.find(m=>m.id===tab.dataset.mid);
-      if(m){history.replaceState({course:course.slug,module:m.id},'',`?course=${course.slug}&module=${m.id}`);loadModule(m);}
-    });
-  });
-
-  showPage('course-page');
-
-  // Check URL for module param
-  const up=new URLSearchParams(window.location.search);
-  const mp=up.get('module');
-  let first=course.modules[0];
-  if(mp){
-    const found=course.modules.find(m=>m.id===mp);
-    if(found){
-      first=found;
-      tabsEl.querySelectorAll('.mt-tab').forEach(t=>{
-        const a=t.dataset.mid===mp;
-        t.classList.toggle('active',a);t.setAttribute('aria-selected',String(a));
-      });
-    }
-  }
-  loadModule(first);
-  window.scrollTo({top:0,behavior:'smooth'});
+  // ── Case B: course has static modules array ────────────────────────
+  const first=buildTabs(course, course.modules||[], mp);
+  if(first)loadModule(first);
 }
 
 /* ═══ PAGE SWITCH ═══════════════════════════════════════════════════════ */
@@ -1107,7 +1214,7 @@ document.getElementById('hero-btn').addEventListener('click',e=>{
 
 document.getElementById('nav-prog')?.addEventListener('click',e=>{
   e.preventDefault();
-  if(currentCourse){goHome();setTimeout(()=>document.getElementById('programs').scrollIntoView({behavior:'smooth'}),360);}
+  if(currentCourse){goHome();setTimeout(()=>document.getElementById('programs')?.scrollIntoView({behavior:'smooth'}),360);}
   else document.getElementById('programs').scrollIntoView({behavior:'smooth'});
 });
 
@@ -1118,14 +1225,15 @@ window.addEventListener('scroll',()=>{
 window.addEventListener('popstate',()=>{
   const p=new URLSearchParams(location.search);
   const c=p.get('course');
-  if(c)openCourse(c);else{currentCourse=null;showPage('home-page');}
+  if(c)openCourse(c).catch(console.error);
+  else{currentCourse=null;showPage('home-page');}
 });
 
 /* ═══ INIT ══════════════════════════════════════════════════════════════ */
 function init(){
   renderCourses();
   const p=new URLSearchParams(location.search);
-  if(p.get('course'))openCourse(p.get('course'));
+  if(p.get('course'))openCourse(p.get('course')).catch(console.error);
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
