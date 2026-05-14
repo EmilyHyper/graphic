@@ -385,7 +385,7 @@ const COURSES = [
     url:'https://kspa.com.ua/school-of-ministers/',
     modules:[
       { id:'module-1', label:'Модуль 1', title:'Система законодавства',   dates:'01–03 трав 2026',
-        csvUrl:'https://docs.google.com/spreadsheets/d/1FTfU0uAoTVgfcer-eN9qMjOZX9PZI5YSTp0SUEtBiA8/export?format=csv&gid=0' },
+        csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQrUx_UBOP3R7izhHk0mQO4gMWKYzZzX97DrA_NR-fUyjDeIGb9g7qWGgZnQ8V57AwOQkztGvtCtsVH/pub?output=csv' },
       { id:'module-2', label:'Модуль 2', title:'Стратегічне управління',  dates:'12–14 чер 2026', csvUrl:'' },
       { id:'module-3', label:'Модуль 3', title:'Економічна політика',     dates:'03–05 лип 2026', csvUrl:'' },
       { id:'module-4', label:'Модуль 4', title:'Публічні комунікації',    dates:'22–24 сер 2026', csvUrl:'' },
@@ -788,20 +788,57 @@ function parseCSV(raw){
   return rows;
 }
 
-async function fetchCSV(url){
-  if(!url)return null;
+/* Normalize URL: pubhtml → pub?output=csv */
+function normalizeCsvUrl(url){
+  if(!url)return url;
+  // /pubhtml → /pub?output=csv
+  url=url.replace(/\/pubhtml(\?.*)?$/,'/pub?output=csv');
+  // /pub?gid=... without output → add output=csv
+  if(url.includes('/pub?')&&!url.includes('output=csv'))url+='&output=csv';
+  return url;
+}
+
+async function fetchCSV(rawUrl){
+  if(!rawUrl)return null;
+  const url=normalizeCsvUrl(rawUrl);
   if(csvCache[url])return csvCache[url];
-  const proxy=`https://corsproxy.io/?${encodeURIComponent(url)}`;
-  const go=async(u)=>{
-    const r=await fetch(u,{cache:'no-store'});
+
+  // Multiple CORS proxies as fallback
+  const proxies=[
+    u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
+    u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+    u=>`https://cors-anywhere.herokuapp.com/${u}`,
+  ];
+
+  const attempt=async(fetchUrl)=>{
+    const r=await fetch(fetchUrl,{cache:'no-store'});
     if(!r.ok)throw new Error('HTTP '+r.status);
-    return parseCSV(await r.text());
+    const text=await r.text();
+    // Google Sheets pubhtml returns HTML when CORS fails — detect it
+    if(text.trim().startsWith('<'))throw new Error('Got HTML, not CSV');
+    return parseCSV(text);
   };
-  try{const d=await go(url);csvCache[url]=d;return d;}
-  catch{
-    try{const d=await go(proxy);csvCache[url]=d;return d;}
-    catch(e){console.warn('CSV fail',e);return null;}
+
+  // Try direct first
+  try{
+    const d=await attempt(url);
+    csvCache[url]=d;return d;
+  }catch(e0){
+    console.warn('Direct fetch failed:',e0.message);
   }
+
+  // Try each proxy
+  for(const mkProxy of proxies){
+    try{
+      const d=await attempt(mkProxy(url));
+      csvCache[url]=d;return d;
+    }catch(ep){
+      console.warn('Proxy failed:',mkProxy(url).slice(0,60),ep.message);
+    }
+  }
+
+  console.error('All CSV fetches failed for:',url);
+  return null;
 }
 
 /* ═══ RENDER SCHEDULE ══════════════════════════════════════════════════ */
