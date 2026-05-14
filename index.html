@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>КШДУ / KSPA — Kyiv School of Public Administration</title>
+<meta name="description" content="Київська школа державного управління — навчальні програми, модулі, розклад, лектори." />
+<style>
+/* ─── Artegra Sans Extended (self-hosted) ────────────────────────────── */
+@font-face { font-family:'Artegra';src:url('fonts/ArtegraSansExRegular.ttf') format('truetype');font-weight:400;font-display:swap; }
+@font-face { font-family:'Artegra';src:url('fonts/ArtegraSansExMedium.ttf') format('truetype');font-weight:500;font-display:swap; }
+@font-face { font-family:'Artegra';src:url('fonts/ArtegraSansExSemiBold.ttf') format('truetype');font-weight:600;font-display:swap; }
+@font-face { font-family:'Artegra';src:url('fonts/ArtegraSansExBold.ttf') format('truetype');font-weight:700;font-display:swap; }
+
+/* ─── Variables ──────────────────────────────────────────────────────── */
+:root{
+  --bg:#1A1A1A;--bg-card:#222;--bg-up:#282828;
+  --ac:#9BC4E2;--ac15:rgba(155,196,226,.15);--ac06:rgba(155,196,226,.06);--ac25:rgba(155,196,226,.25);
+  --tx:#F4F4F4;--tx-m:#8A8A8A;--tx-d:#4A4A4A;
+  --ln:rgba(244,244,244,.07);--ln-ac:rgba(155,196,226,.22);
+  --f:'Artegra','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --r:2px;--ease:.25s cubic-bezier(.4,0,.2,1);
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font-family:var(--f);cursor:pointer;border:none;background:none;color:inherit}
+ul,ol{list-style:none}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--ln-ac);border-radius:2px}
+
+/* ─── Layout ─────────────────────────────────────────────────────────── */
+.wrap{max-width:1280px;margin:0 auto;padding:0 48px}
+@media(max-width:768px){.wrap{padding:0 20px}}
+main{padding-top:64px}
+
+/* ─── Nav ────────────────────────────────────────────────────────────── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(26,26,26,.94);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--ln);transition:box-shadow var(--ease);
+}
+.nav-i{display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{display:flex;align-items:center;gap:14px;cursor:pointer;transition:opacity var(--ease)}
+.nav-logo:hover{opacity:.7}
+.nav-logo-mark{
+  width:34px;height:34px;border:1.5px solid var(--ac25);border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--ac);
+}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1.15}
+.nav-logo-name{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.nav-logo-sub{font-size:9px;font-weight:400;color:var(--tx-m);letter-spacing:.18em;text-transform:uppercase}
+.nav-links{display:flex;gap:32px}
+.nav-links a{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--tx-m);transition:color var(--ease)}
+.nav-links a:hover{color:var(--tx)}
+@media(max-width:700px){.nav-links{display:none}}
+.nav-lang{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac15);padding:6px 14px;border-radius:var(--r);transition:background var(--ease)}
+.nav-lang:hover{background:var(--ac15)}
+
+/* ─── Pages ──────────────────────────────────────────────────────────── */
+.page{display:block}
+.page.hidden{display:none}
+.page-enter{animation:pgIn .35s ease forwards}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ─── Hero ───────────────────────────────────────────────────────────── */
+#hero{position:relative;padding:96px 0 72px;border-bottom:1px solid var(--ln);overflow:hidden}
+.hero-noise{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 65% 80% at 75% 50%,rgba(155,196,226,.055) 0%,transparent 58%),
+    radial-gradient(ellipse 40% 60% at 15% 90%,rgba(155,196,226,.03) 0%,transparent 50%);
+}
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;opacity:.18;
+  background-image:linear-gradient(90deg,var(--ln) 1px,transparent 1px),linear-gradient(var(--ln) 1px,transparent 1px);
+  background-size:72px 72px;
+}
+.hero-c{position:relative;z-index:1}
+.hero-eye{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.hero-eye::before{content:'';width:36px;height:1px;background:var(--ac);flex-shrink:0}
+.hero-h{font-size:clamp(50px,7.5vw,104px);font-weight:700;line-height:.93;letter-spacing:-.025em;margin-bottom:28px}
+.hero-h em{color:var(--ac);font-style:normal}
+.hero-sub{font-size:15px;color:var(--tx-m);max-width:500px;line-height:1.75;margin-bottom:44px}
+.hero-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--bg);background:var(--ac);padding:16px 32px;border-radius:var(--r);
+  transition:opacity var(--ease),transform var(--ease);
+}
+.hero-btn:hover{opacity:.85;transform:translateY(-2px)}
+.hero-btn-arr{font-size:17px;transition:transform var(--ease)}
+.hero-btn:hover .hero-btn-arr{transform:translateX(4px)}
+
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ln);margin-top:72px}
+.h-stat{padding:28px 0;border-right:1px solid var(--ln)}
+.h-stat:last-child{border-right:none}
+.h-stat-n{font-size:clamp(30px,4.5vw,58px);font-weight:700;color:var(--ac);line-height:1;letter-spacing:-.025em}
+.h-stat-l{font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--tx-m);margin-top:6px}
+@media(max-width:560px){.hero-stats{grid-template-columns:1fr}.h-stat{border-right:none;border-bottom:1px solid var(--ln)}.h-stat:last-child{border-bottom:none}}
+
+/* ─── Section ────────────────────────────────────────────────────────── */
+.section{padding:80px 0;border-bottom:1px solid var(--ln)}
+.sec-eye{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-eye::before{content:'';width:22px;height:1px;background:var(--ac);flex-shrink:0}
+.sec-h{font-size:clamp(26px,3.8vw,46px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.sec-sub{font-size:14px;color:var(--tx-m);margin-top:10px;max-width:540px;line-height:1.75}
+.sec-header{margin-bottom:52px}
+
+/* ─── Course cards ───────────────────────────────────────────────────── */
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--ln)}
+@media(max-width:400px){.courses-grid{grid-template-columns:1fr}}
+.c-card{
+  background:var(--bg);padding:38px 32px;cursor:pointer;position:relative;overflow:hidden;
+  transition:background var(--ease);
+}
+.c-card:hover{background:var(--bg-card)}
+.c-card::before{
+  content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+  background:var(--ac);transform:scaleY(0);transform-origin:bottom;transition:transform var(--ease);
+}
+.c-card:hover::before{transform:scaleY(1)}
+.c-card-idx{font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--tx-d);text-transform:uppercase;margin-bottom:20px}
+.c-card-tag{display:inline-block;font-size:8.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac15);padding:4px 10px;border-radius:var(--r);margin-bottom:18px}
+.c-card-title{font-size:22px;font-weight:700;line-height:1.15;letter-spacing:-.01em;margin-bottom:14px}
+.c-card-desc{font-size:13px;color:var(--tx-m);line-height:1.7;margin-bottom:28px}
+.c-card-meta{display:flex;gap:20px;padding-top:20px;border-top:1px solid var(--ln);flex-wrap:wrap}
+.c-meta-i{font-size:10px;color:var(--tx-d);text-transform:uppercase;letter-spacing:.1em}
+.c-meta-v{font-size:13px;font-weight:600;color:var(--tx);margin-top:3px}
+.c-card-arr{position:absolute;bottom:32px;right:32px;font-size:20px;color:var(--ac);opacity:0;transform:translate(-6px,6px);transition:opacity var(--ease),transform var(--ease)}
+.c-card:hover .c-card-arr{opacity:1;transform:none}
+
+/* ─── Course page ────────────────────────────────────────────────────── */
+.c-header{padding:56px 0 44px;border-bottom:1px solid var(--ln)}
+.breadcrumb{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--tx-m);margin-bottom:28px;flex-wrap:wrap}
+.bc-link{cursor:pointer;transition:color var(--ease);text-transform:uppercase}
+.bc-link:hover{color:var(--ac)}
+.bc-sep{color:var(--tx-d)}
+.bc-cur{color:var(--tx);text-transform:uppercase}
+.c-tag{display:inline-block;font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac15);padding:4px 10px;border-radius:var(--r);margin-bottom:18px}
+.c-page-title{font-size:clamp(34px,5.5vw,76px);font-weight:700;letter-spacing:-.025em;line-height:.93;margin-bottom:18px}
+.c-page-meta{display:flex;gap:28px;color:var(--tx-m);font-size:12px;flex-wrap:wrap;align-items:center}
+.c-meta-dot{color:var(--tx-d)}
+
+/* ─── Module tabs ────────────────────────────────────────────────────── */
+.mod-tabs-wrap{position:sticky;top:64px;z-index:100;background:rgba(26,26,26,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--ln)}
+.mod-tabs{display:flex;overflow-x:auto;scrollbar-width:none;max-width:1280px;margin:0 auto;padding:0 48px}
+.mod-tabs::-webkit-scrollbar{display:none}
+@media(max-width:768px){.mod-tabs{padding:0 20px}}
+.mod-tab{
+  flex-shrink:0;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--tx-m);padding:18px 18px;position:relative;cursor:pointer;white-space:nowrap;
+  transition:color var(--ease);border:none;background:none;
+}
+.mod-tab::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--ac);transform:scaleX(0);transition:transform var(--ease)}
+.mod-tab:hover{color:var(--tx)}
+.mod-tab.active{color:var(--tx)}
+.mod-tab.active::after{transform:scaleX(1)}
+
+/* ─── Module content ─────────────────────────────────────────────────── */
+.mod-content{padding:60px 0 80px}
+
+/* ─── States ─────────────────────────────────────────────────────────── */
+.state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 40px;text-align:center;min-height:280px}
+.state-ico{font-size:38px;margin-bottom:20px;opacity:.4}
+.state-t{font-size:17px;font-weight:600;margin-bottom:10px}
+.state-d{font-size:13px;color:var(--tx-m);max-width:360px;line-height:1.75}
+.dots{display:flex;gap:8px;margin-bottom:22px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ac);opacity:.2;animation:pulse 1.2s ease-in-out infinite}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}
+
+/* ─── Day/Events ─────────────────────────────────────────────────────── */
+.day-group{margin-bottom:60px}
+.day-header{display:flex;align-items:baseline;gap:18px;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid var(--ln)}
+.day-name{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ac)}
+.day-date{font-size:26px;font-weight:700;letter-spacing:-.02em}
+.ev-list{display:flex;flex-direction:column;gap:2px}
+.ev-row{
+  display:grid;grid-template-columns:130px 1fr;border:1px solid var(--ln);
+  border-radius:var(--r);overflow:hidden;transition:border-color var(--ease),background var(--ease);
+}
+.ev-row:hover{border-color:var(--ln-ac);background:var(--ac06)}
+.ev-time-col{padding:18px 20px;border-right:1px solid var(--ln);display:flex;flex-direction:column;justify-content:flex-start}
+.ev-time{font-size:12px;font-weight:600;letter-spacing:.05em;font-variant-numeric:tabular-nums}
+.ev-badge{margin-top:7px;display:inline-block;font-size:7.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:3px 7px;border-radius:var(--r)}
+.b-lecture  {background:rgba(155,196,226,.14);color:var(--ac)}
+.b-guest    {background:rgba(180,220,180,.11);color:#9BC49B}
+.b-training {background:rgba(226,180,155,.11);color:#E2B49B}
+.b-workshop {background:rgba(200,155,226,.11);color:#C89BE2}
+.b-break    {background:rgba(100,100,100,.1); color:var(--tx-d)}
+.b-simulation{background:rgba(226,226,155,.1);color:#E2E29B}
+.b-lunch    {background:rgba(155,226,180,.1); color:#9BE2B4}
+.b-default  {background:rgba(100,100,100,.08);color:var(--tx-m)}
+.ev-body-col{padding:18px 24px}
+.ev-title{font-size:14px;font-weight:600;letter-spacing:-.01em;margin-bottom:3px}
+.ev-topic{font-size:11px;color:var(--ac);font-weight:500;margin-bottom:6px}
+.ev-desc{font-size:12px;color:var(--tx-m);line-height:1.65;margin-bottom:10px}
+.ev-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.ev-chip{display:flex;align-items:center;gap:7px;background:var(--bg-up);border:1px solid var(--ln);border-radius:24px;padding:3px 10px 3px 3px;font-size:10.5px;font-weight:500;color:var(--tx-m);transition:border-color var(--ease)}
+.ev-chip:hover{border-color:var(--ln-ac);color:var(--tx)}
+.av-mini{width:20px;height:20px;border-radius:50%;object-fit:cover}
+.av-mini-init{width:20px;height:20px;border-radius:50%;background:var(--ac15);color:var(--ac);font-size:7.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
+@media(max-width:580px){
+  .ev-row{grid-template-columns:1fr}
+  .ev-time-col{border-right:none;border-bottom:1px solid var(--ln);padding:12px 16px;flex-direction:row;align-items:center;gap:10px}
+  .ev-badge{margin-top:0}
+  .ev-body-col{padding:12px 16px}
+}
+
+/* ─── Speaker section ────────────────────────────────────────────────── */
+.sp-section{margin-top:72px;padding-top:56px;border-top:1px solid var(--ln)}
+.sp-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:44px;gap:16px;flex-wrap:wrap}
+.sp-title{font-size:clamp(20px,3vw,36px);font-weight:700;letter-spacing:-.02em}
+.sp-count{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--tx-m)}
+.sp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--ln)}
+.sp-card{background:var(--bg);padding:28px 24px;position:relative;overflow:hidden;transition:background var(--ease)}
+.sp-card:hover{background:var(--bg-card)}
+.sp-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(155,196,226,.04),transparent 70%);pointer-events:none;opacity:0;transition:opacity var(--ease)}
+.sp-card:hover::after{opacity:1}
+.sp-av{width:68px;height:68px;border-radius:50%;overflow:hidden;margin-bottom:18px;border:1.5px solid var(--ln);transition:border-color var(--ease);flex-shrink:0}
+.sp-card:hover .sp-av{border-color:var(--ln-ac)}
+.sp-av img{width:100%;height:100%;object-fit:cover}
+.sp-av-init{width:100%;height:100%;background:var(--ac15);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:var(--ac);letter-spacing:.04em}
+.sp-badge{display:inline-block;margin-bottom:12px;font-size:7.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r)}
+.sp-name{font-size:16px;font-weight:700;letter-spacing:-.01em;margin-bottom:5px;line-height:1.25}
+.sp-role{font-size:11.5px;color:var(--tx-m);line-height:1.6;margin-bottom:10px}
+.sp-topic{font-size:11px;color:var(--ac);font-weight:500;border-left:2px solid var(--ac);padding-left:9px;line-height:1.5;margin-bottom:18px}
+.sp-socials{display:flex;gap:8px;padding-top:14px;border-top:1px solid var(--ln)}
+.sp-soc{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:1px solid var(--ln);border-radius:var(--r);color:var(--tx-m);font-size:12px;transition:border-color var(--ease),color var(--ease)}
+.sp-soc:hover{border-color:var(--ln-ac);color:var(--ac)}
+
+/* ─── Footer ─────────────────────────────────────────────────────────── */
+footer{padding:44px 0;border-top:1px solid var(--ln)}
+.foot-i{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.foot-logo{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.foot-copy{font-size:11px;color:var(--tx-d)}
+.foot-links{display:flex;gap:18px}
+.foot-links a{font-size:11px;color:var(--tx-m);letter-spacing:.08em;transition:color var(--ease)}
+.foot-links a:hover{color:var(--tx)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-i wrap">
+    <div class="nav-logo" id="nav-home" role="button" tabindex="0" aria-label="На головну">
+      <div class="nav-logo-mark">КШ</div>
+      <div class="nav-logo-text">
+        <span class="nav-logo-name">КШДУ</span>
+        <span class="nav-logo-sub">KSPA</span>
+      </div>
+    </div>
+    <nav class="nav-links" aria-label="Розділи">
+      <a href="#programs" id="nav-a-prog">Програми</a>
+      <a href="https://kspa.com.ua" target="_blank" rel="noopener">Про школу</a>
+    </nav>
+    <button class="nav-lang" aria-label="Мова">EN</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ════════════════════ HOME PAGE ════════════════════ -->
+<div id="home-page" class="page">
+
+  <!-- HERO -->
+  <section id="hero" aria-labelledby="hero-h">
+    <div class="hero-noise" aria-hidden="true"></div>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap hero-c">
+      <p class="hero-eye">Київська Школа Державного Управління</p>
+      <h1 class="hero-h" id="hero-h">Навчай.<br><em>Управляй.</em><br>Міняй.</h1>
+      <p class="hero-sub">Освітня платформа для державних управлінців нового покоління. Програми, модулі, розклад і лектори — в одному місці.</p>
+      <a href="#programs" class="hero-btn" id="hero-btn">
+        Переглянути програми <span class="hero-btn-arr" aria-hidden="true">→</span>
+      </a>
+      <div class="hero-stats" aria-label="Статистика">
+        <div class="h-stat"><div class="h-stat-n" id="s-c">—</div><div class="h-stat-l">Програм</div></div>
+        <div class="h-stat"><div class="h-stat-n" id="s-m">—</div><div class="h-stat-l">Модулів</div></div>
+        <div class="h-stat"><div class="h-stat-n" id="s-s">50+</div><div class="h-stat-l">Лекторів</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS -->
+  <section class="section" id="programs" aria-labelledby="prog-h">
+    <div class="wrap">
+      <div class="sec-header">
+        <p class="sec-eye">Навчальні програми</p>
+        <h2 class="sec-h" id="prog-h">Наші курси</h2>
+        <p class="sec-sub">Оберіть програму, щоб переглянути модулі, розклад та лекторів.</p>
+      </div>
+      <div class="courses-grid" id="courses-grid" role="list" aria-label="Список програм"></div>
+    </div>
+  </section>
+
+</div><!-- /home-page -->
+
+<!-- ════════════════════ COURSE PAGE ════════════════════ -->
+<div id="course-page" class="page hidden">
+
+  <div class="c-header">
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="Шлях">
+        <span class="bc-link" id="bc-home" role="button" tabindex="0">Програми</span>
+        <span class="bc-sep" aria-hidden="true">›</span>
+        <span class="bc-cur" id="bc-cur">—</span>
+      </nav>
+      <div class="c-tag" id="c-tag">Програма</div>
+      <h1 class="c-page-title" id="c-title">—</h1>
+      <div class="c-page-meta" id="c-meta"></div>
+    </div>
+  </div>
+
+  <div class="mod-tabs-wrap" role="navigation" aria-label="Модулі">
+    <div class="mod-tabs" id="mod-tabs" role="tablist"></div>
+  </div>
+
+  <div class="wrap">
+    <div class="mod-content" id="mod-content" role="tabpanel" aria-live="polite"></div>
+  </div>
+
+</div><!-- /course-page -->
+
+</main>
+
+<footer>
+  <div class="wrap foot-i">
+    <span class="foot-logo">КШДУ / KSPA</span>
+    <span class="foot-copy">© 2025 Київська Школа Державного Управління</span>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="https://kspa.com.ua" target="_blank" rel="noopener">Сайт школи</a>
+      <a href="https://kspa.com.ua/en/our-programs/" target="_blank" rel="noopener">Програми</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SITE CONFIG
+   ─────────────────────────────────────────────────────────────────────
+   Щоб додати нову програму — додайте об'єкт у масив COURSES.
+   Щоб додати новий модуль — додайте об'єкт у courses.modules.
+
+   csvUrl — публічне посилання з Google Sheets:
+   File → Share → Publish to web → оберіть аркуш → формат CSV → Copy link
+
+   Формат URL:
+   https://docs.google.com/spreadsheets/d/SHEET_ID/export?format=csv&gid=GID_NUMBER
+═══════════════════════════════════════════════════════════════════════ */
+const COURSES = [
+  {
+    id: 'school-ministers',
+    slug: 'school-ministers',
+    tag: 'Флагманська програма',
+    title: 'Школа Міністрів',
+    edition: 'XIII',
+    desc: 'Інтенсивна програма для державних службовців вищого рівня. Стратегічне мислення, реформи, лідерство та публічні комунікації.',
+    duration: '7 модулів',
+    format: 'Очно / Гібрид',
+    year: '2025–2026',
+    modules: [
+      {
+        id: 'module-1',
+        label: 'Модуль 1',
+        title: 'Система законодавства',
+        dates: '01–03 травня 2026',
+        // ← Вставте сюди посилання на CSV-публікацію першого аркуша
+        csvUrl: 'https://docs.google.com/spreadsheets/d/1FTfU0uAoTVgfcer-eN9qMjOZX9PZI5YSTp0SUEtBiA8/export?format=csv&gid=0',
+      },
+      {
+        id: 'module-2', label: 'Модуль 2', title: 'Стратегічне управління',
+        dates: '12–14 червня 2026',
+        csvUrl: '', // ← додайте CSV URL
+      },
+      {
+        id: 'module-3', label: 'Модуль 3', title: 'Економічна політика',
+        dates: '03–05 липня 2026', csvUrl: '',
+      },
+      {
+        id: 'module-4', label: 'Модуль 4', title: 'Публічні комунікації',
+        dates: '22–24 серпня 2026', csvUrl: '',
+      },
+      {
+        id: 'module-5', label: 'Модуль 5', title: 'Реформи та зміни',
+        dates: '10–12 вересня 2026', csvUrl: '',
+      },
+      {
+        id: 'module-6', label: 'Модуль 6', title: 'Міжнародна діяльність',
+        dates: '01–03 жовтня 2026', csvUrl: '',
+      },
+      {
+        id: 'module-7', label: 'Модуль 7', title: 'Підсумковий проект',
+        dates: '14–16 листопада 2026', csvUrl: '',
+      },
+    ]
+  },
+  // ─── ДОДАТИ НОВУ ПРОГРАМУ НИЖЧЕ ──────────────────────────────────────
+  // {
+  //   id: 'school-deputies', slug: 'school-deputies',
+  //   tag: 'Програма', title: 'Школа Народних Депутатів', edition: 'V',
+  //   desc: 'Програма для народних депутатів та їх команд.',
+  //   duration: '5 модулів', format: 'Очно', year: '2026',
+  //   modules: [
+  //     { id: 'module-1', label: 'Модуль 1', title: 'Законодавчий процес',
+  //       dates: '...', csvUrl: '...' },
+  //   ]
+  // },
+];
+
+/* ═══ EVENT TYPES — автоматичне визначення типу за назвою події ═════ */
+const EV_TYPES = {
+  'лекці':     { l: 'Лекція',     c: 'b-lecture'   },
+  'lecture':   { l: 'Лекція',     c: 'b-lecture'   },
+  'тренінг':   { l: 'Тренінг',    c: 'b-training'  },
+  'training':  { l: 'Тренінг',    c: 'b-training'  },
+  'воркшоп':   { l: 'Практикум',  c: 'b-workshop'  },
+  'практикум': { l: 'Практикум',  c: 'b-workshop'  },
+  'workshop':  { l: 'Практикум',  c: 'b-workshop'  },
+  'кава':      { l: 'Кава-брейк', c: 'b-break'     },
+  'перерва':   { l: 'Перерва',    c: 'b-break'     },
+  'break':     { l: 'Перерва',    c: 'b-break'     },
+  'welcome':   { l: 'Кава-брейк', c: 'b-break'     },
+  'обід':      { l: 'Обід',       c: 'b-lunch'     },
+  'lunch':     { l: 'Обід',       c: 'b-lunch'     },
+  'симуляці':  { l: 'Симуляція',  c: 'b-simulation'},
+  'simulation':{ l: 'Симуляція',  c: 'b-simulation'},
+  'гра':       { l: 'Симуляція',  c: 'b-simulation'},
+  'гість':     { l: 'Гість',      c: 'b-guest'     },
+  'guest':     { l: 'Гість',      c: 'b-guest'     },
+  'дискусі':   { l: 'Дискусія',   c: 'b-guest'     },
+  'панел':     { l: 'Дискусія',   c: 'b-guest'     },
+};
+
+/* ═══ SVG ICONS ═══════════════════════════════════════════════════════ */
+const SVG = {
+  fb: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`,
+  li: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`,
+  gl: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+};
+
+/* ═══ STATE ═══════════════════════════════════════════════════════════ */
+let currentCourse = null;
+let csvCache = {};
+
+/* ═══ CSV PARSER ══════════════════════════════════════════════════════ */
+function parseCSV(raw) {
+  const lines = raw.split(/\r?\n/);
+  if (!lines.length) return [];
+
+  function splitLine(line) {
+    const cols = []; let cur = ''; let q = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') { if (q && line[i+1]==='"'){cur+='"';i++;}else q=!q; }
+      else if (ch === ',' && !q) { cols.push(cur.trim()); cur = ''; }
+      else cur += ch;
+    }
+    cols.push(cur.trim()); return cols;
+  }
+
+  const headers = splitLine(lines[0]).map(h => h.toLowerCase().trim());
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const l = lines[i].trim(); if (!l) continue;
+    const cols = splitLine(l);
+    const row = {}; headers.forEach((h,idx) => { row[h] = cols[idx] || ''; });
+    rows.push(row);
+  }
+  return rows;
+}
+
+/* ═══ FETCH CSV (with cache + CORS proxy fallback) ════════════════════ */
+async function fetchCSV(url) {
+  if (!url) return null;
+  if (csvCache[url]) return csvCache[url];
+
+  const proxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+
+  const attempt = async (u) => {
+    const r = await fetch(u, { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return parseCSV(await r.text());
+  };
+
+  try {
+    const rows = await attempt(url);
+    csvCache[url] = rows; return rows;
+  } catch {
+    try {
+      const rows = await attempt(proxy);
+      csvCache[url] = rows; return rows;
+    } catch (e) {
+      console.warn('CSV fetch failed:', e); return null;
+    }
+  }
+}
+
+/* ═══ HELPERS ════════════════════════════════════════════════════════ */
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function initials(name) {
+  if (!name) return '?';
+  const p = name.trim().split(/\s+/);
+  return p.length === 1 ? p[0].slice(0,2).toUpperCase() : (p[0][0]+p[p.length-1][0]).toUpperCase();
+}
+
+function detectType(evName) {
+  if (!evName) return null;
+  const lo = evName.toLowerCase();
+  for (const [key, val] of Object.entries(EV_TYPES)) {
+    if (lo.includes(key)) return val;
+  }
+  return null;
+}
+
+function parseSocials(s) {
+  if (!s) return {};
+  const urls = s.trim().split(/\s+/).filter(Boolean);
+  const res = {};
+  for (const u of urls) {
+    const lo = u.toLowerCase();
+    if (lo.includes('facebook')) res.fb = u;
+    else if (lo.includes('linkedin')) res.li = u;
+    else if (u.startsWith('http')) res.gl = u;
+  }
+  return res;
+}
+
+function renderSocials(s) {
+  const sc = parseSocials(s); let h = '';
+  if (sc.fb) h += `<a href="${esc(sc.fb)}" class="sp-soc" target="_blank" rel="noopener" aria-label="Facebook">${SVG.fb}</a>`;
+  if (sc.li) h += `<a href="${esc(sc.li)}" class="sp-soc" target="_blank" rel="noopener" aria-label="LinkedIn">${SVG.li}</a>`;
+  if (sc.gl) h += `<a href="${esc(sc.gl)}" class="sp-soc" target="_blank" rel="noopener" aria-label="Веб-сайт">${SVG.gl}</a>`;
+  return h;
+}
+
+function avatarMini(photo, name) {
+  if (photo && photo.startsWith('http'))
+    return `<img class="av-mini" src="${esc(photo)}" alt="${esc(name)}" loading="lazy"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+             <div class="av-mini-init" style="display:none">${initials(name)}</div>`;
+  return `<div class="av-mini-init">${initials(name)}</div>`;
+}
+
+function avatarFull(photo, name) {
+  if (photo && photo.startsWith('http'))
+    return `<img src="${esc(photo)}" alt="${esc(name)}" loading="lazy"
+             onerror="this.parentElement.innerHTML='<div class=sp-av-init>${initials(name)}</div>'">`;
+  return `<div class="sp-av-init">${initials(name)}</div>`;
+}
+
+function plural(n, one, few, many) {
+  const m10 = n%10, m100 = n%100;
+  if (m10===1 && m100!==11) return one;
+  if (m10>=2 && m10<=4 && (m100<10||m100>=20)) return few;
+  return many;
+}
+
+/* ═══ EXTRACT SPEAKERS from CSV rows ═════════════════════════════════ */
+function extractSpeakers(rows) {
+  const seen = new Set(); const speakers = [];
+  for (const row of rows) {
+    for (let i = 1; i <= 3; i++) {
+      const nk = i===1 ? 'speaker 1' : `speaker ${i}`;
+      const name = (row[nk] || '').trim();
+      if (!name || seen.has(name.toLowerCase())) continue;
+      seen.add(name.toLowerCase());
+      const dk = i===1 ? 'speaker 1 description' : `speaker ${i} description`;
+      const sk = i===1 ? 'speaker 1 socials'     : `speaker ${i} socials`;
+      const pk = i===1 ? 'speaker 1 photo'        : `speaker ${i} photo`;
+      speakers.push({
+        name, desc: row[dk]||'', socials: row[sk]||'',
+        photo: row[pk]||'', topic: row['topic']||'',
+        type: detectType(row['event']||''),
+      });
+    }
+  }
+  return speakers;
+}
+
+/* ═══ RENDER SCHEDULE ═════════════════════════════════════════════════ */
+function renderSchedule(rows) {
+  const valid = rows.filter(r => Object.values(r).some(v=>v&&v.trim()));
+  if (!valid.length) return stateHTML('📋','Розклад відсутній','Дані в таблиці ще не додані або вона порожня.');
+
+  // Group by DAY+DATE
+  const groups = new Map();
+  for (const row of valid) {
+    const day = row['day']||''; const date = row['date']||'';
+    if (!day && !date) continue;
+    const key = `${day}||${date}`;
+    if (!groups.has(key)) groups.set(key, {day,date,events:[]});
+    groups.get(key).events.push(row);
+  }
+  if (!groups.size) return stateHTML('📋','Дані порожні','Таблиця не містить рядків з DAY/DATE.');
+
+  return [...groups.values()].map(g => {
+    const evs = g.events.map(row => {
+      const t = row['time']||'', ev = row['event']||'';
+      const topic = row['topic']||'', desc = row['description']||row['desc']||'';
+      const type = detectType(ev);
+      const badge = type ? `<span class="ev-badge ${type.c}">${type.l}</span>` : '';
+
+      let chips = '';
+      for (let i=1;i<=3;i++){
+        const name=(row[i===1?'speaker 1':`speaker ${i}`]||'').trim();
+        const photo=row[i===1?'speaker 1 photo':`speaker ${i} photo`]||'';
+        if(!name) continue;
+        chips+=`<div class="ev-chip">${avatarMini(photo,name)}<span>${esc(name)}</span></div>`;
+      }
+
+      return `<div class="ev-row">
+        <div class="ev-time-col">
+          <span class="ev-time">${esc(t)}</span>${badge}
+        </div>
+        <div class="ev-body-col">
+          <div class="ev-title">${esc(ev)}</div>
+          ${topic?`<div class="ev-topic">${esc(topic)}</div>`:''}
+          ${desc ?`<div class="ev-desc">${esc(desc)}</div>`:''}
+          ${chips?`<div class="ev-chips">${chips}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+
+    return `<div class="day-group">
+      <div class="day-header">
+        <span class="day-name">${esc(g.day)}</span>
+        <span class="day-date">${esc(g.date)}</span>
+      </div>
+      <div class="ev-list" role="list">${evs}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══ RENDER SPEAKER CARDS ════════════════════════════════════════════ */
+function renderSpeakers(speakers) {
+  if (!speakers.length) return '';
+  const cards = speakers.map(sp => {
+    const type = sp.type;
+    const badge = type ? `<span class="sp-badge ${type.c}">${type.l}</span>` : '';
+    const soc = renderSocials(sp.socials);
+    return `<div class="sp-card">
+      <div class="sp-av">${avatarFull(sp.photo,sp.name)}</div>
+      ${badge}
+      <div class="sp-name">${esc(sp.name)}</div>
+      ${sp.desc  ? `<div class="sp-role">${esc(sp.desc)}</div>`  : ''}
+      ${sp.topic ? `<div class="sp-topic">${esc(sp.topic)}</div>` : ''}
+      ${soc ? `<div class="sp-socials">${soc}</div>` : ''}
+    </div>`;
+  }).join('');
+  return `<div class="sp-section">
+    <div class="sp-head">
+      <h2 class="sp-title">Лектори модуля</h2>
+      <span class="sp-count">${speakers.length} ${plural(speakers.length,'лектор','лектори','лекторів')}</span>
+    </div>
+    <div class="sp-grid">${cards}</div>
+  </div>`;
+}
+
+function stateHTML(ico, title, desc) {
+  return `<div class="state">
+    <div class="state-ico">${ico}</div>
+    <div class="state-t">${title}</div>
+    <div class="state-d">${desc}</div>
+  </div>`;
+}
+
+function loadingHTML() {
+  return `<div class="state">
+    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="state-t">Завантаження розкладу…</div>
+    <div class="state-d">Отримуємо дані з Google Sheets</div>
+  </div>`;
+}
+
+/* ═══ LOAD MODULE ═════════════════════════════════════════════════════ */
+async function loadModule(mod) {
+  const container = document.getElementById('mod-content');
+  container.innerHTML = loadingHTML();
+
+  if (!mod.csvUrl) {
+    container.innerHTML = stateHTML('🔗','CSV не налаштовано',
+      `Додайте посилання на CSV у конфізурації "${mod.label}". <br><small style="font-size:10px;color:var(--tx-d)">File → Share → Publish to web → CSV → вставте URL у конфіг</small>`);
+    return;
+  }
+
+  const rows = await fetchCSV(mod.csvUrl);
+  if (!rows) {
+    container.innerHTML = stateHTML('⚠️','Не вдалося завантажити',
+      'Перевірте доступ до Google Sheets. Таблиця має бути опублікована (File → Share → Publish to web).');
+    return;
+  }
+
+  const valid = rows.filter(r => Object.values(r).some(v=>v&&v.trim()));
+  const speakers = extractSpeakers(valid);
+  container.innerHTML = renderSchedule(valid) + renderSpeakers(speakers);
+  container.classList.add('page-enter');
+  setTimeout(() => container.classList.remove('page-enter'), 400);
+}
+
+/* ═══ RENDER COURSES ══════════════════════════════════════════════════ */
+function renderCourses() {
+  const grid = document.getElementById('courses-grid');
+  const totalMod = COURSES.reduce((a,c)=>a+c.modules.length,0);
+  document.getElementById('s-c').textContent = COURSES.length;
+  document.getElementById('s-m').textContent = totalMod;
+
+  grid.innerHTML = COURSES.map((c,i) => `
+    <div class="c-card" role="listitem" tabindex="0" data-id="${c.id}" aria-label="Відкрити програму ${c.title}">
+      <div class="c-card-idx">${String(i+1).padStart(2,'0')} / ${String(COURSES.length).padStart(2,'0')}</div>
+      <span class="c-card-tag">${esc(c.tag)}</span>
+      <h3 class="c-card-title">${esc(c.title)} ${esc(c.edition||'')}</h3>
+      <p class="c-card-desc">${esc(c.desc)}</p>
+      <div class="c-card-meta">
+        <div><div class="c-meta-i">Формат</div><div class="c-meta-v">${esc(c.format)}</div></div>
+        <div><div class="c-meta-i">Тривалість</div><div class="c-meta-v">${esc(c.duration)}</div></div>
+        <div><div class="c-meta-i">Рік</div><div class="c-meta-v">${esc(c.year)}</div></div>
+      </div>
+      <span class="c-card-arr" aria-hidden="true">↗</span>
+    </div>`).join('');
+
+  grid.querySelectorAll('.c-card').forEach(card => {
+    const open = () => openCourse(card.dataset.id);
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') open(); });
+  });
+}
+
+/* ═══ OPEN COURSE ═════════════════════════════════════════════════════ */
+function openCourse(courseId) {
+  const course = COURSES.find(c => c.id === courseId);
+  if (!course) return;
+  currentCourse = course;
+
+  // URL
+  history.pushState({ course: course.slug }, '', `?course=${course.slug}`);
+
+  // Header
+  document.getElementById('bc-cur').textContent = `${course.title} ${course.edition||''}`;
+  document.getElementById('c-tag').textContent   = course.tag;
+  document.getElementById('c-title').textContent = `${course.title} ${course.edition||''}`;
+  document.getElementById('c-meta').innerHTML = `
+    <span>${esc(course.format)}</span>
+    <span class="c-meta-dot">·</span>
+    <span>${esc(course.duration)}</span>
+    <span class="c-meta-dot">·</span>
+    <span>${esc(course.year)}</span>`;
+
+  // Module tabs
+  const tabsEl = document.getElementById('mod-tabs');
+  tabsEl.innerHTML = course.modules.map((m,i) =>
+    `<button class="mod-tab${i===0?' active':''}" role="tab" aria-selected="${i===0}"
+      data-mid="${m.id}">${esc(m.label)}</button>`).join('');
+
+  tabsEl.querySelectorAll('.mod-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabsEl.querySelectorAll('.mod-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});
+      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+      const mod = course.modules.find(m=>m.id===tab.dataset.mid);
+      if (mod) {
+        history.replaceState({course:course.slug,module:mod.id},'',`?course=${course.slug}&module=${mod.id}`);
+        loadModule(mod);
+      }
+    });
+  });
+
+  showPage('course-page');
+
+  // Respect URL module param
+  const params = new URLSearchParams(window.location.search);
+  const mParam = params.get('module');
+  let firstMod = course.modules[0];
+  if (mParam) {
+    const found = course.modules.find(m=>m.id===mParam);
+    if (found) {
+      firstMod = found;
+      tabsEl.querySelectorAll('.mod-tab').forEach(t=>{
+        const a = t.dataset.mid===mParam;
+        t.classList.toggle('active',a); t.setAttribute('aria-selected',String(a));
+      });
+    }
+  }
+  loadModule(firstMod);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ═══ PAGE SWITCH ═════════════════════════════════════════════════════ */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => {
+    if (p.id === id) {
+      p.classList.remove('hidden');
+      void p.offsetWidth; // reflow
+      p.classList.add('page-enter');
+      setTimeout(()=>p.classList.remove('page-enter'),400);
+    } else {
+      p.classList.add('hidden');
+    }
+  });
+}
+
+function goHome() {
+  history.pushState({},'',' ');
+  currentCourse = null;
+  showPage('home-page');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ═══ EVENTS ══════════════════════════════════════════════════════════ */
+document.getElementById('nav-home').addEventListener('click', ()=>{
+  if(currentCourse) goHome();
+});
+document.getElementById('nav-home').addEventListener('keydown', e=>{
+  if(e.key==='Enter'&&currentCourse) goHome();
+});
+document.getElementById('bc-home').addEventListener('click', goHome);
+document.getElementById('bc-home').addEventListener('keydown', e=>{if(e.key==='Enter')goHome();});
+
+document.getElementById('hero-btn').addEventListener('click', e=>{
+  e.preventDefault();
+  document.getElementById('programs').scrollIntoView({behavior:'smooth'});
+});
+document.querySelector('.nav-links a[href="#programs"]')?.addEventListener('click', e=>{
+  e.preventDefault();
+  if (currentCourse) goHome();
+  setTimeout(()=>document.getElementById('programs')?.scrollIntoView({behavior:'smooth'}),currentCourse?350:0);
+});
+
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').style.boxShadow = window.scrollY>6?'0 2px 32px rgba(0,0,0,.55)':'none';
+},{passive:true});
+
+window.addEventListener('popstate',()=>{
+  const p = new URLSearchParams(window.location.search);
+  const c = p.get('course');
+  if (c) openCourse(c); else { currentCourse=null; showPage('home-page'); }
+});
+
+/* ═══ INIT ════════════════════════════════════════════════════════════ */
+function init() {
+  renderCourses();
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('course')) openCourse(p.get('course'));
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
