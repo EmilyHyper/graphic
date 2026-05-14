@@ -1,344 +1,364 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>КШДУ / KSPA — Kyiv School of Public Administration</title>
-<meta name="description" content="Київська школа державного управління — навчальні програми, модулі, розклад, лектори." />
+<meta name="description" content="Київська школа державного управління — навчальні програми, модулі, розклад, лектори."/>
 <style>
-/* ─── Artegra Sans Extended (self-hosted) ────────────────────────────── */
-@font-face { font-family:'Artegra';src:url('fonts/ArtegraSansExRegular.ttf') format('truetype');font-weight:400;font-display:swap; }
-@font-face { font-family:'Artegra';src:url('fonts/ArtegraSansExMedium.ttf') format('truetype');font-weight:500;font-display:swap; }
-@font-face { font-family:'Artegra';src:url('fonts/ArtegraSansExSemiBold.ttf') format('truetype');font-weight:600;font-display:swap; }
-@font-face { font-family:'Artegra';src:url('fonts/ArtegraSansExBold.ttf') format('truetype');font-weight:700;font-display:swap; }
+/* ─── Artegra Sans Extended ───────────────────────────────────────────── */
+@font-face{font-family:'Artegra';src:url('ArtegraSansExLight.ttf') format('truetype');font-weight:300;font-display:swap}
+@font-face{font-family:'Artegra';src:url('ArtegraSansExRegular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Artegra';src:url('ArtegraSansExMedium.ttf') format('truetype');font-weight:500;font-display:swap}
+@font-face{font-family:'Artegra';src:url('ArtegraSansExSemiBold.ttf') format('truetype');font-weight:600;font-display:swap}
+@font-face{font-family:'Artegra';src:url('ArtegraSansExBold.ttf') format('truetype');font-weight:700;font-display:swap}
 
-/* ─── Variables ──────────────────────────────────────────────────────── */
+/* ─── Design tokens ───────────────────────────────────────────────────── */
 :root{
-  --bg:#1A1A1A;--bg-card:#222;--bg-up:#282828;
-  --ac:#9BC4E2;--ac15:rgba(155,196,226,.15);--ac06:rgba(155,196,226,.06);--ac25:rgba(155,196,226,.25);
-  --tx:#F4F4F4;--tx-m:#8A8A8A;--tx-d:#4A4A4A;
-  --ln:rgba(244,244,244,.07);--ln-ac:rgba(155,196,226,.22);
+  --bg:#191919;
+  --bg1:#212121;
+  --bg2:#2C2C2C;
+  --ac:#9BC4E2;
+  --ac10:rgba(155,196,226,.10);
+  --ac18:rgba(155,196,226,.18);
+  --ac30:rgba(155,196,226,.30);
+  --tx:#F4F4F4;
+  --txm:#909090;
+  --txd:#484848;
+  --ln:rgba(255,255,255,.07);
+  --lnac:rgba(155,196,226,.20);
   --f:'Artegra','Helvetica Neue',Helvetica,Arial,sans-serif;
-  --r:2px;--ease:.25s cubic-bezier(.4,0,.2,1);
+  --r:2px;
+  --ease:.22s cubic-bezier(.4,0,.2,1);
 }
 
-/* ─── Reset ──────────────────────────────────────────────────────────── */
+/* ─── Reset ───────────────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:var(--f);background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
 button{font-family:var(--f);cursor:pointer;border:none;background:none;color:inherit}
-ul,ol{list-style:none}
+ul{list-style:none}
 ::-webkit-scrollbar{width:3px;height:3px}
-::-webkit-scrollbar-thumb{background:var(--ln-ac);border-radius:2px}
+::-webkit-scrollbar-thumb{background:var(--lnac);border-radius:2px}
 
-/* ─── Layout ─────────────────────────────────────────────────────────── */
-.wrap{max-width:1280px;margin:0 auto;padding:0 48px}
-@media(max-width:768px){.wrap{padding:0 20px}}
+/* ─── Layout ──────────────────────────────────────────────────────────── */
+.w{max-width:1280px;margin:0 auto;padding:0 48px}
+@media(max-width:768px){.w{padding:0 20px}}
 main{padding-top:64px}
 
-/* ─── Nav ────────────────────────────────────────────────────────────── */
+/* ─── Nav ─────────────────────────────────────────────────────────────── */
 #nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  background:rgba(26,26,26,.94);backdrop-filter:blur(20px);
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  background:rgba(25,25,25,.96);backdrop-filter:blur(24px);
   border-bottom:1px solid var(--ln);transition:box-shadow var(--ease);
 }
 .nav-i{display:flex;align-items:center;justify-content:space-between;height:64px}
-.nav-logo{display:flex;align-items:center;gap:14px;cursor:pointer;transition:opacity var(--ease)}
-.nav-logo:hover{opacity:.7}
-.nav-logo-mark{
-  width:34px;height:34px;border:1.5px solid var(--ac25);border-radius:var(--r);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--ac);
-}
-.nav-logo-text{display:flex;flex-direction:column;line-height:1.15}
-.nav-logo-name{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
-.nav-logo-sub{font-size:9px;font-weight:400;color:var(--tx-m);letter-spacing:.18em;text-transform:uppercase}
-.nav-links{display:flex;gap:32px}
-.nav-links a{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--tx-m);transition:color var(--ease)}
+.nav-logo{display:flex;align-items:center;gap:0;cursor:pointer;transition:opacity var(--ease)}
+.nav-logo:hover{opacity:.72}
+.nav-logo svg{height:36px;width:auto}
+
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:11px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--txm);transition:color var(--ease)}
 .nav-links a:hover{color:var(--tx)}
-@media(max-width:700px){.nav-links{display:none}}
-.nav-lang{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac15);padding:6px 14px;border-radius:var(--r);transition:background var(--ease)}
-.nav-lang:hover{background:var(--ac15)}
+@media(max-width:680px){.nav-links{display:none}}
 
-/* ─── Pages ──────────────────────────────────────────────────────────── */
-.page{display:block}
-.page.hidden{display:none}
-.page-enter{animation:pgIn .35s ease forwards}
-@keyframes pgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-lang{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac18);padding:6px 14px;border-radius:var(--r);transition:background var(--ease)}
+.nav-lang:hover{background:var(--ac10)}
 
-/* ─── Hero ───────────────────────────────────────────────────────────── */
-#hero{position:relative;padding:96px 0 72px;border-bottom:1px solid var(--ln);overflow:hidden}
-.hero-noise{
-  position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 65% 80% at 75% 50%,rgba(155,196,226,.055) 0%,transparent 58%),
-    radial-gradient(ellipse 40% 60% at 15% 90%,rgba(155,196,226,.03) 0%,transparent 50%);
-}
-.hero-grid{
-  position:absolute;inset:0;pointer-events:none;opacity:.18;
+/* ─── Pages ───────────────────────────────────────────────────────────── */
+.page.hidden{display:none!important}
+.pg-enter{animation:pgin .32s ease forwards}
+@keyframes pgin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ─── Hero ────────────────────────────────────────────────────────────── */
+#hero{position:relative;padding:88px 0 64px;border-bottom:1px solid var(--ln);overflow:hidden}
+.h-glow{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 72% 48%,rgba(155,196,226,.055) 0%,transparent 60%),
+             radial-gradient(ellipse 38% 55% at 12% 88%,rgba(155,196,226,.03) 0%,transparent 55%)}
+.h-grid{position:absolute;inset:0;pointer-events:none;opacity:.16;
   background-image:linear-gradient(90deg,var(--ln) 1px,transparent 1px),linear-gradient(var(--ln) 1px,transparent 1px);
-  background-size:72px 72px;
-}
-.hero-c{position:relative;z-index:1}
-.hero-eye{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:22px;display:flex;align-items:center;gap:12px}
-.hero-eye::before{content:'';width:36px;height:1px;background:var(--ac);flex-shrink:0}
-.hero-h{font-size:clamp(50px,7.5vw,104px);font-weight:700;line-height:.93;letter-spacing:-.025em;margin-bottom:28px}
-.hero-h em{color:var(--ac);font-style:normal}
-.hero-sub{font-size:15px;color:var(--tx-m);max-width:500px;line-height:1.75;margin-bottom:44px}
-.hero-btn{
-  display:inline-flex;align-items:center;gap:12px;
-  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--bg);background:var(--ac);padding:16px 32px;border-radius:var(--r);
-  transition:opacity var(--ease),transform var(--ease);
-}
-.hero-btn:hover{opacity:.85;transform:translateY(-2px)}
-.hero-btn-arr{font-size:17px;transition:transform var(--ease)}
-.hero-btn:hover .hero-btn-arr{transform:translateX(4px)}
+  background-size:68px 68px}
+.h-c{position:relative;z-index:1}
+.h-eye{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.h-eye::before{content:'';width:32px;height:1px;background:var(--ac);flex-shrink:0}
+.h-title{font-size:clamp(52px,7.8vw,108px);font-weight:700;line-height:.91;letter-spacing:-.026em;margin-bottom:26px}
+.h-title em{color:var(--ac);font-style:normal}
+.h-sub{font-size:14px;font-weight:300;color:var(--txm);max-width:480px;line-height:1.8;margin-bottom:40px}
+.h-btn{display:inline-flex;align-items:center;gap:11px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--bg);background:var(--ac);padding:15px 30px;border-radius:var(--r);transition:opacity var(--ease),transform var(--ease)}
+.h-btn:hover{opacity:.86;transform:translateY(-2px)}
+.h-arr{font-size:16px;transition:transform var(--ease)}
+.h-btn:hover .h-arr{transform:translateX(5px)}
 
-.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ln);margin-top:72px}
-.h-stat{padding:28px 0;border-right:1px solid var(--ln)}
+.h-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ln);margin-top:64px}
+.h-stat{padding:26px 0;border-right:1px solid var(--ln)}
 .h-stat:last-child{border-right:none}
-.h-stat-n{font-size:clamp(30px,4.5vw,58px);font-weight:700;color:var(--ac);line-height:1;letter-spacing:-.025em}
-.h-stat-l{font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--tx-m);margin-top:6px}
-@media(max-width:560px){.hero-stats{grid-template-columns:1fr}.h-stat{border-right:none;border-bottom:1px solid var(--ln)}.h-stat:last-child{border-bottom:none}}
+.h-sn{font-size:clamp(28px,4.5vw,60px);font-weight:700;color:var(--ac);line-height:1;letter-spacing:-.025em}
+.h-sl{font-size:10px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--txm);margin-top:5px}
+@media(max-width:520px){.h-stats{grid-template-columns:1fr}.h-stat{border-right:none;border-bottom:1px solid var(--ln)}.h-stat:last-child{border-bottom:none}}
 
-/* ─── Section ────────────────────────────────────────────────────────── */
-.section{padding:80px 0;border-bottom:1px solid var(--ln)}
-.sec-eye{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:14px;display:flex;align-items:center;gap:10px}
-.sec-eye::before{content:'';width:22px;height:1px;background:var(--ac);flex-shrink:0}
-.sec-h{font-size:clamp(26px,3.8vw,46px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
-.sec-sub{font-size:14px;color:var(--tx-m);margin-top:10px;max-width:540px;line-height:1.75}
-.sec-header{margin-bottom:52px}
+/* ─── Filter bar ──────────────────────────────────────────────────────── */
+.filter-bar{padding:28px 0;border-bottom:1px solid var(--ln);background:var(--bg1)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-btn{font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;padding:7px 16px;border-radius:24px;border:1px solid var(--ln);color:var(--txm);cursor:pointer;transition:all var(--ease)}
+.filter-btn:hover{border-color:var(--lnac);color:var(--tx)}
+.filter-btn.active{background:var(--ac10);border-color:var(--ac);color:var(--ac)}
+.filter-label{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--txd);margin-right:4px}
 
-/* ─── Course cards ───────────────────────────────────────────────────── */
-.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--ln)}
-@media(max-width:400px){.courses-grid{grid-template-columns:1fr}}
-.c-card{
-  background:var(--bg);padding:38px 32px;cursor:pointer;position:relative;overflow:hidden;
-  transition:background var(--ease);
-}
-.c-card:hover{background:var(--bg-card)}
-.c-card::before{
-  content:'';position:absolute;top:0;left:0;width:3px;height:100%;
-  background:var(--ac);transform:scaleY(0);transform-origin:bottom;transition:transform var(--ease);
-}
+/* ─── Section ─────────────────────────────────────────────────────────── */
+.section{padding:72px 0;border-bottom:1px solid var(--ln)}
+.sec-eye{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sec-eye::before{content:'';width:20px;height:1px;background:var(--ac);flex-shrink:0}
+.sec-h{font-size:clamp(26px,3.8vw,46px);font-weight:700;letter-spacing:-.022em;line-height:1.08}
+.sec-sub{font-size:14px;color:var(--txm);margin-top:9px;max-width:520px;line-height:1.75;font-weight:300}
+.sec-hd{margin-bottom:48px}
+
+/* ─── Courses grid ────────────────────────────────────────────────────── */
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1px;background:var(--ln)}
+.c-card{background:var(--bg);padding:36px 30px;cursor:pointer;position:relative;overflow:hidden;transition:background var(--ease)}
+.c-card:hover{background:var(--bg1)}
+.c-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--ac);transform:scaleY(0);transform-origin:bottom;transition:transform .3s cubic-bezier(.4,0,.2,1)}
 .c-card:hover::before{transform:scaleY(1)}
-.c-card-idx{font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--tx-d);text-transform:uppercase;margin-bottom:20px}
-.c-card-tag{display:inline-block;font-size:8.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac15);padding:4px 10px;border-radius:var(--r);margin-bottom:18px}
-.c-card-title{font-size:22px;font-weight:700;line-height:1.15;letter-spacing:-.01em;margin-bottom:14px}
-.c-card-desc{font-size:13px;color:var(--tx-m);line-height:1.7;margin-bottom:28px}
-.c-card-meta{display:flex;gap:20px;padding-top:20px;border-top:1px solid var(--ln);flex-wrap:wrap}
-.c-meta-i{font-size:10px;color:var(--tx-d);text-transform:uppercase;letter-spacing:.1em}
-.c-meta-v{font-size:13px;font-weight:600;color:var(--tx);margin-top:3px}
-.c-card-arr{position:absolute;bottom:32px;right:32px;font-size:20px;color:var(--ac);opacity:0;transform:translate(-6px,6px);transition:opacity var(--ease),transform var(--ease)}
-.c-card:hover .c-card-arr{opacity:1;transform:none}
 
-/* ─── Course page ────────────────────────────────────────────────────── */
-.c-header{padding:56px 0 44px;border-bottom:1px solid var(--ln)}
-.breadcrumb{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--tx-m);margin-bottom:28px;flex-wrap:wrap}
-.bc-link{cursor:pointer;transition:color var(--ease);text-transform:uppercase}
-.bc-link:hover{color:var(--ac)}
-.bc-sep{color:var(--tx-d)}
+.c-status{display:inline-flex;align-items:center;gap:6px;font-size:8.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px}
+.c-status-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.status-active .c-status-dot{background:#6FCF97;box-shadow:0 0 6px rgba(111,207,151,.5)}
+.status-active{color:#6FCF97}
+.status-soon .c-status-dot{background:var(--ac)}
+.status-soon{color:var(--ac)}
+.status-done .c-status-dot{background:var(--txd)}
+.status-done{color:var(--txd)}
+
+.c-tag{display:inline-block;font-size:8px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac18);padding:3px 9px;border-radius:var(--r);margin-bottom:16px}
+.c-title{font-size:19px;font-weight:700;line-height:1.2;letter-spacing:-.01em;margin-bottom:10px}
+.c-desc{font-size:12.5px;color:var(--txm);line-height:1.72;margin-bottom:24px;font-weight:300}
+.c-meta{display:flex;gap:18px;padding-top:18px;border-top:1px solid var(--ln);flex-wrap:wrap}
+.c-mi{font-size:9.5px;color:var(--txd);text-transform:uppercase;letter-spacing:.1em}
+.c-mv{font-size:12px;font-weight:600;color:var(--tx);margin-top:3px}
+.c-arr{position:absolute;bottom:30px;right:28px;font-size:18px;color:var(--ac);opacity:0;transform:translate(-6px,6px);transition:opacity var(--ease),transform var(--ease)}
+.c-card:hover .c-arr{opacity:1;transform:none}
+.c-card.hidden-card{display:none}
+
+/* ─── No results ──────────────────────────────────────────────────────── */
+#no-results{display:none;padding:80px 0;text-align:center;color:var(--txm);font-size:14px}
+
+/* ─── Course page ─────────────────────────────────────────────────────── */
+.cp-header{padding:52px 0 40px;border-bottom:1px solid var(--ln)}
+.bc{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--txm);margin-bottom:24px;flex-wrap:wrap}
+.bc-a{cursor:pointer;text-transform:uppercase;transition:color var(--ease)}
+.bc-a:hover{color:var(--ac)}
+.bc-sep{color:var(--txd)}
 .bc-cur{color:var(--tx);text-transform:uppercase}
-.c-tag{display:inline-block;font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac15);padding:4px 10px;border-radius:var(--r);margin-bottom:18px}
-.c-page-title{font-size:clamp(34px,5.5vw,76px);font-weight:700;letter-spacing:-.025em;line-height:.93;margin-bottom:18px}
-.c-page-meta{display:flex;gap:28px;color:var(--tx-m);font-size:12px;flex-wrap:wrap;align-items:center}
-.c-meta-dot{color:var(--tx-d)}
+.cp-tag{display:inline-block;font-size:8.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac18);padding:3px 10px;border-radius:var(--r);margin-bottom:16px}
+.cp-title{font-size:clamp(32px,5.5vw,78px);font-weight:700;letter-spacing:-.026em;line-height:.91;margin-bottom:16px}
+.cp-meta{display:flex;gap:24px;color:var(--txm);font-size:12px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.cp-dot{color:var(--txd)}
+.cp-status-badge{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:12px}
 
-/* ─── Module tabs ────────────────────────────────────────────────────── */
-.mod-tabs-wrap{position:sticky;top:64px;z-index:100;background:rgba(26,26,26,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--ln)}
-.mod-tabs{display:flex;overflow-x:auto;scrollbar-width:none;max-width:1280px;margin:0 auto;padding:0 48px}
-.mod-tabs::-webkit-scrollbar{display:none}
-@media(max-width:768px){.mod-tabs{padding:0 20px}}
-.mod-tab{
-  flex-shrink:0;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--tx-m);padding:18px 18px;position:relative;cursor:pointer;white-space:nowrap;
-  transition:color var(--ease);border:none;background:none;
-}
-.mod-tab::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--ac);transform:scaleX(0);transition:transform var(--ease)}
-.mod-tab:hover{color:var(--tx)}
-.mod-tab.active{color:var(--tx)}
-.mod-tab.active::after{transform:scaleX(1)}
+/* ─── Module tabs ─────────────────────────────────────────────────────── */
+.mt-wrap{position:sticky;top:64px;z-index:100;background:rgba(25,25,25,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--ln)}
+.mt{display:flex;overflow-x:auto;scrollbar-width:none;max-width:1280px;margin:0 auto;padding:0 48px}
+.mt::-webkit-scrollbar{display:none}
+@media(max-width:768px){.mt{padding:0 20px}}
+.mt-tab{flex-shrink:0;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--txm);padding:17px 16px;position:relative;cursor:pointer;white-space:nowrap;transition:color var(--ease)}
+.mt-tab::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--ac);transform:scaleX(0);transition:transform var(--ease)}
+.mt-tab:hover{color:var(--tx)}
+.mt-tab.active{color:var(--tx)}
+.mt-tab.active::after{transform:scaleX(1)}
+.mt-tab .mt-dates{display:block;font-size:8px;font-weight:400;color:var(--txd);letter-spacing:.08em;margin-top:2px;text-transform:none}
 
-/* ─── Module content ─────────────────────────────────────────────────── */
-.mod-content{padding:60px 0 80px}
+/* ─── Module content ──────────────────────────────────────────────────── */
+.mc{padding:56px 0 80px}
 
-/* ─── States ─────────────────────────────────────────────────────────── */
-.state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 40px;text-align:center;min-height:280px}
-.state-ico{font-size:38px;margin-bottom:20px;opacity:.4}
-.state-t{font-size:17px;font-weight:600;margin-bottom:10px}
-.state-d{font-size:13px;color:var(--tx-m);max-width:360px;line-height:1.75}
-.dots{display:flex;gap:8px;margin-bottom:22px}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--ac);opacity:.2;animation:pulse 1.2s ease-in-out infinite}
+/* ─── States ──────────────────────────────────────────────────────────── */
+.state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:90px 40px;text-align:center;min-height:260px}
+.state-i{font-size:36px;margin-bottom:18px;opacity:.4}
+.state-t{font-size:16px;font-weight:600;margin-bottom:9px}
+.state-d{font-size:13px;color:var(--txm);max-width:360px;line-height:1.75;font-weight:300}
+.dots{display:flex;gap:7px;margin-bottom:20px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ac);opacity:.18;animation:dp 1.2s ease-in-out infinite}
 .dot:nth-child(2){animation-delay:.2s}
 .dot:nth-child(3){animation-delay:.4s}
-@keyframes pulse{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}
+@keyframes dp{0%,100%{opacity:.18;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
 
-/* ─── Day/Events ─────────────────────────────────────────────────────── */
-.day-group{margin-bottom:60px}
-.day-header{display:flex;align-items:baseline;gap:18px;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid var(--ln)}
-.day-name{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ac)}
-.day-date{font-size:26px;font-weight:700;letter-spacing:-.02em}
+/* ─── Day groups ──────────────────────────────────────────────────────── */
+.day-g{margin-bottom:56px}
+.day-hd{display:flex;align-items:baseline;gap:16px;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--ln)}
+.day-name{font-size:9.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ac)}
+.day-date{font-size:24px;font-weight:700;letter-spacing:-.02em}
+
+/* ─── Event rows ──────────────────────────────────────────────────────── */
 .ev-list{display:flex;flex-direction:column;gap:2px}
-.ev-row{
-  display:grid;grid-template-columns:130px 1fr;border:1px solid var(--ln);
-  border-radius:var(--r);overflow:hidden;transition:border-color var(--ease),background var(--ease);
-}
-.ev-row:hover{border-color:var(--ln-ac);background:var(--ac06)}
-.ev-time-col{padding:18px 20px;border-right:1px solid var(--ln);display:flex;flex-direction:column;justify-content:flex-start}
-.ev-time{font-size:12px;font-weight:600;letter-spacing:.05em;font-variant-numeric:tabular-nums}
-.ev-badge{margin-top:7px;display:inline-block;font-size:7.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:3px 7px;border-radius:var(--r)}
-.b-lecture  {background:rgba(155,196,226,.14);color:var(--ac)}
-.b-guest    {background:rgba(180,220,180,.11);color:#9BC49B}
-.b-training {background:rgba(226,180,155,.11);color:#E2B49B}
-.b-workshop {background:rgba(200,155,226,.11);color:#C89BE2}
-.b-break    {background:rgba(100,100,100,.1); color:var(--tx-d)}
-.b-simulation{background:rgba(226,226,155,.1);color:#E2E29B}
-.b-lunch    {background:rgba(155,226,180,.1); color:#9BE2B4}
-.b-default  {background:rgba(100,100,100,.08);color:var(--tx-m)}
-.ev-body-col{padding:18px 24px}
-.ev-title{font-size:14px;font-weight:600;letter-spacing:-.01em;margin-bottom:3px}
-.ev-topic{font-size:11px;color:var(--ac);font-weight:500;margin-bottom:6px}
-.ev-desc{font-size:12px;color:var(--tx-m);line-height:1.65;margin-bottom:10px}
-.ev-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
-.ev-chip{display:flex;align-items:center;gap:7px;background:var(--bg-up);border:1px solid var(--ln);border-radius:24px;padding:3px 10px 3px 3px;font-size:10.5px;font-weight:500;color:var(--tx-m);transition:border-color var(--ease)}
-.ev-chip:hover{border-color:var(--ln-ac);color:var(--tx)}
-.av-mini{width:20px;height:20px;border-radius:50%;object-fit:cover}
-.av-mini-init{width:20px;height:20px;border-radius:50%;background:var(--ac15);color:var(--ac);font-size:7.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
-@media(max-width:580px){
+.ev-row{display:grid;grid-template-columns:120px 1fr;border:1px solid var(--ln);border-radius:var(--r);overflow:hidden;transition:border-color var(--ease),background var(--ease)}
+.ev-row:hover{border-color:var(--lnac);background:rgba(155,196,226,.04)}
+.ev-tc{padding:16px 18px;border-right:1px solid var(--ln);display:flex;flex-direction:column;justify-content:flex-start;gap:6px}
+.ev-time{font-size:12px;font-weight:600;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.ev-badge{display:inline-block;font-size:7px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:2.5px 6px;border-radius:var(--r)}
+.b-lec{background:rgba(155,196,226,.14);color:var(--ac)}
+.b-gst{background:rgba(180,220,180,.11);color:#9BC49B}
+.b-trn{background:rgba(226,180,155,.11);color:#E2B49B}
+.b-wrk{background:rgba(200,155,226,.11);color:#C89BE2}
+.b-brk{background:rgba(100,100,100,.10);color:var(--txd)}
+.b-sim{background:rgba(226,226,155,.10);color:#E2E29B}
+.b-lun{background:rgba(155,226,180,.10);color:#9BE2B4}
+.b-def{background:rgba(100,100,100,.08);color:var(--txm)}
+.ev-bc{padding:16px 22px}
+.ev-ttl{font-size:13.5px;font-weight:600;letter-spacing:-.01em;margin-bottom:2px}
+.ev-top{font-size:11px;color:var(--ac);font-weight:500;margin-bottom:5px}
+.ev-dsc{font-size:12px;color:var(--txm);line-height:1.65;margin-bottom:8px;font-weight:300}
+.ev-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.ev-chip{display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--ln);border-radius:20px;padding:2px 9px 2px 3px;font-size:10px;font-weight:500;color:var(--txm);transition:border-color var(--ease)}
+.ev-chip:hover{border-color:var(--lnac);color:var(--tx)}
+.av-s{width:19px;height:19px;border-radius:50%;object-fit:cover}
+.av-si{width:19px;height:19px;border-radius:50%;background:var(--ac10);color:var(--ac);font-size:7px;font-weight:700;display:flex;align-items:center;justify-content:center}
+@media(max-width:560px){
   .ev-row{grid-template-columns:1fr}
-  .ev-time-col{border-right:none;border-bottom:1px solid var(--ln);padding:12px 16px;flex-direction:row;align-items:center;gap:10px}
-  .ev-badge{margin-top:0}
-  .ev-body-col{padding:12px 16px}
+  .ev-tc{border-right:none;border-bottom:1px solid var(--ln);padding:12px 14px;flex-direction:row;align-items:center}
+  .ev-bc{padding:12px 14px}
 }
 
-/* ─── Speaker section ────────────────────────────────────────────────── */
-.sp-section{margin-top:72px;padding-top:56px;border-top:1px solid var(--ln)}
-.sp-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:44px;gap:16px;flex-wrap:wrap}
-.sp-title{font-size:clamp(20px,3vw,36px);font-weight:700;letter-spacing:-.02em}
-.sp-count{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--tx-m)}
-.sp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--ln)}
-.sp-card{background:var(--bg);padding:28px 24px;position:relative;overflow:hidden;transition:background var(--ease)}
-.sp-card:hover{background:var(--bg-card)}
-.sp-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(155,196,226,.04),transparent 70%);pointer-events:none;opacity:0;transition:opacity var(--ease)}
+/* ─── Speakers ────────────────────────────────────────────────────────── */
+.sp-sec{margin-top:64px;padding-top:52px;border-top:1px solid var(--ln)}
+.sp-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:40px;gap:14px;flex-wrap:wrap}
+.sp-h{font-size:clamp(18px,2.8vw,32px);font-weight:700;letter-spacing:-.02em}
+.sp-ct{font-size:9.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--txm)}
+.sp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:1px;background:var(--ln)}
+.sp-card{background:var(--bg);padding:26px 22px;position:relative;overflow:hidden;transition:background var(--ease)}
+.sp-card:hover{background:var(--bg1)}
+.sp-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(155,196,226,.045),transparent 65%);pointer-events:none;opacity:0;transition:opacity var(--ease)}
 .sp-card:hover::after{opacity:1}
-.sp-av{width:68px;height:68px;border-radius:50%;overflow:hidden;margin-bottom:18px;border:1.5px solid var(--ln);transition:border-color var(--ease);flex-shrink:0}
-.sp-card:hover .sp-av{border-color:var(--ln-ac)}
+.sp-av{width:64px;height:64px;border-radius:50%;overflow:hidden;margin-bottom:16px;border:1.5px solid var(--ln);transition:border-color var(--ease)}
+.sp-card:hover .sp-av{border-color:var(--lnac)}
 .sp-av img{width:100%;height:100%;object-fit:cover}
-.sp-av-init{width:100%;height:100%;background:var(--ac15);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:var(--ac);letter-spacing:.04em}
-.sp-badge{display:inline-block;margin-bottom:12px;font-size:7.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r)}
-.sp-name{font-size:16px;font-weight:700;letter-spacing:-.01em;margin-bottom:5px;line-height:1.25}
-.sp-role{font-size:11.5px;color:var(--tx-m);line-height:1.6;margin-bottom:10px}
-.sp-topic{font-size:11px;color:var(--ac);font-weight:500;border-left:2px solid var(--ac);padding-left:9px;line-height:1.5;margin-bottom:18px}
-.sp-socials{display:flex;gap:8px;padding-top:14px;border-top:1px solid var(--ln)}
-.sp-soc{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:1px solid var(--ln);border-radius:var(--r);color:var(--tx-m);font-size:12px;transition:border-color var(--ease),color var(--ease)}
-.sp-soc:hover{border-color:var(--ln-ac);color:var(--ac)}
+.sp-av-i{width:100%;height:100%;background:var(--ac10);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--ac)}
+.sp-bdg{display:inline-block;margin-bottom:10px;font-size:7px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:3px 8px;border-radius:var(--r)}
+.sp-name{font-size:15px;font-weight:700;letter-spacing:-.01em;margin-bottom:4px;line-height:1.2}
+.sp-role{font-size:11px;color:var(--txm);line-height:1.65;margin-bottom:8px;font-weight:300}
+.sp-topic{font-size:10.5px;color:var(--ac);font-weight:500;border-left:2px solid var(--ac);padding-left:8px;line-height:1.5;margin-bottom:16px}
+.sp-socs{display:flex;gap:7px;padding-top:12px;border-top:1px solid var(--ln)}
+.sp-soc{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border:1px solid var(--ln);border-radius:var(--r);color:var(--txm);transition:border-color var(--ease),color var(--ease)}
+.sp-soc:hover{border-color:var(--lnac);color:var(--ac)}
 
-/* ─── Footer ─────────────────────────────────────────────────────────── */
-footer{padding:44px 0;border-top:1px solid var(--ln)}
-.foot-i{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-.foot-logo{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
-.foot-copy{font-size:11px;color:var(--tx-d)}
-.foot-links{display:flex;gap:18px}
-.foot-links a{font-size:11px;color:var(--tx-m);letter-spacing:.08em;transition:color var(--ease)}
-.foot-links a:hover{color:var(--tx)}
+/* ─── Footer ──────────────────────────────────────────────────────────── */
+footer{padding:40px 0;border-top:1px solid var(--ln)}
+.f-i{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.f-logo{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--txm)}
+.f-copy{font-size:10px;color:var(--txd)}
+.f-links{display:flex;gap:16px}
+.f-links a{font-size:10px;color:var(--txm);letter-spacing:.08em;transition:color var(--ease)}
+.f-links a:hover{color:var(--tx)}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ══════════════════════════════ NAV ══════════════════════════════════ -->
 <nav id="nav">
-  <div class="nav-i wrap">
+  <div class="nav-i w">
     <div class="nav-logo" id="nav-home" role="button" tabindex="0" aria-label="На головну">
-      <div class="nav-logo-mark">КШ</div>
-      <div class="nav-logo-text">
-        <span class="nav-logo-name">КШДУ</span>
-        <span class="nav-logo-sub">KSPA</span>
-      </div>
+      <!-- Inline logo SVG -->
+      <svg width="107" height="78" viewBox="0 0 107 78" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:34px;width:auto">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.0354 30.9179L53.4588 6.30083L95.892 30.9179L94.3034 33.6673L53.4588 9.96678L12.6045 33.6673L11.0354 30.9179Z" fill="#9BC4E2"/>
+        <path d="M10.4297 61.2151H11.0453V63.8774H10.4297V61.2151ZM14.8019 63.0531L15.7152 61.2151H16.5047V63.8774H15.889V62.1693L15.0404 63.8774H14.5633L13.7147 62.1693V63.8774H13.099V61.2151H13.8885L14.8019 63.0531ZM21.0396 62.2733V62.7913H19.1537V63.3408H21.1376V63.8774H18.538V61.2151H21.1191V61.7516H19.1537V62.2733H21.0396ZM25.3489 61.2151H25.9646V63.8774H25.3489V62.7876H23.7496V63.8774H23.134V61.2151H23.7496V62.251H25.3489V61.2151ZM28.0182 61.2151H28.6339V63.8774H28.0182V61.2151ZM33.8616 62.5463C33.8616 62.6601 33.8825 62.7696 33.9245 62.8748C33.9664 62.9789 34.0324 63.071 34.1223 63.1515C34.2135 63.2307 34.3307 63.2945 34.4736 63.3427C34.6178 63.3909 34.7917 63.4151 34.995 63.4151C35.122 63.4151 35.2397 63.404 35.3482 63.3817C35.4566 63.3594 35.5509 63.3346 35.6311 63.3074C35.7247 63.2752 35.8098 63.2387 35.8862 63.1979L36.1802 63.6305C36.1063 63.6911 36.0126 63.745 35.8992 63.792C35.851 63.8118 35.7962 63.8315 35.7346 63.8514C35.673 63.87 35.6046 63.8866 35.5294 63.9015C35.4554 63.9164 35.3734 63.9281 35.2835 63.9368C35.1947 63.9467 35.0986 63.9517 34.995 63.9517C34.6943 63.9517 34.4329 63.9145 34.2111 63.8402C33.9904 63.7647 33.8068 63.6633 33.6601 63.5357C33.5146 63.4071 33.4062 63.258 33.3347 63.0884C33.2631 62.9176 33.2274 62.7368 33.2274 62.5463C33.2274 62.3556 33.2631 62.1755 33.3347 62.0059C33.4062 61.8352 33.5146 61.686 33.6601 61.5586C33.8068 61.4298 33.9904 61.3284 34.2111 61.2541C34.4329 61.1786 34.6943 61.1409 34.995 61.1409C35.0986 61.1409 35.1947 61.1458 35.2835 61.1556C35.3734 61.1643 35.4554 61.1767 35.5294 61.1928C35.6046 61.2077 35.673 61.225 35.7346 61.2448C35.7962 61.2634 35.851 61.2825 35.8992 61.3023C36.0126 61.3493 36.1063 61.4026 36.1802 61.462L35.8862 61.8946C35.8098 61.8549 35.7247 61.8191 35.6311 61.7869C35.5509 61.7597 35.4566 61.7349 35.3482 61.7126C35.2397 61.6892 35.122 61.6774 34.995 61.6774C34.7917 61.6774 34.6178 61.7015 34.4736 61.7498C34.3307 61.798 34.2135 61.8624 34.1223 61.9428C34.0324 62.0221 33.9664 62.1142 33.9245 62.2195C33.8825 62.3247 33.8616 62.4336 33.8616 62.5463ZM40.606 62.2733V62.7913H38.72V63.3408H40.704V63.8774H38.1043V61.2151H40.6855V61.7516H38.72V62.2733H40.606ZM43.3159 61.7516V62.5425H44.4235C44.5726 62.5425 44.6836 62.5078 44.7563 62.4385C44.829 62.3692 44.8653 62.2721 44.8653 62.147C44.8653 62.0221 44.829 61.9249 44.7563 61.8556C44.6836 61.7863 44.5726 61.7516 44.4235 61.7516H43.3159ZM42.7002 63.8774V61.2151H44.4235C44.5874 61.2151 44.7348 61.2361 44.8653 61.2782C44.9972 61.319 45.1094 61.3791 45.2019 61.4583C45.2943 61.5375 45.3652 61.6353 45.4145 61.7516C45.4638 61.8668 45.4885 61.9985 45.4885 62.147C45.4885 62.2956 45.4638 62.4281 45.4145 62.5443C45.3652 62.6595 45.2943 62.7566 45.2019 62.8359C45.1094 62.9151 44.9972 62.9757 44.8653 63.0178C44.7348 63.0586 44.5874 63.079 44.4235 63.079H43.3159V63.8774H42.7002ZM50.077 61.2151V61.7516H48.1004V63.8774H47.4847V61.2151H50.077ZM52.0178 61.2151H52.6335V63.8774H52.0178V61.2151ZM56.7709 63.8774V62.9603H55.7928L55.2621 63.8774H54.5762L55.153 62.8804C54.9768 62.821 54.8406 62.7288 54.7444 62.6037C54.6495 62.4775 54.602 62.3148 54.602 62.1155C54.602 61.9979 54.6224 61.8853 54.663 61.7776C54.7049 61.6687 54.7684 61.5728 54.8534 61.4898C54.9386 61.4057 55.0464 61.3388 55.177 61.2894C55.3089 61.2398 55.4648 61.2151 55.6449 61.2151H57.3865V63.8774H56.7709ZM55.6449 61.7516C55.5647 61.7516 55.4975 61.7615 55.4433 61.7814C55.3903 61.8012 55.3471 61.8278 55.3139 61.8611C55.2819 61.8946 55.2591 61.9336 55.2454 61.9781C55.2319 62.0215 55.2251 62.0672 55.2251 62.1155C55.2251 62.1638 55.2319 62.2102 55.2454 62.2547C55.2591 62.298 55.2819 62.3364 55.3139 62.3699C55.3471 62.4033 55.3903 62.4299 55.4433 62.4497C55.4975 62.4695 55.5647 62.4794 55.6449 62.4794H56.7709V61.7516H55.6449ZM64.2117 61.2151H64.8274V63.8774H64.2117V62.7876H62.6124V63.8774H61.9967V61.2151H62.6124V62.251H64.2117V61.2151ZM69.7339 63.8774H69.1182V61.9428L67.6465 63.8774H66.8625V61.2151H67.4783V63.1496L68.95 61.2151H69.7339V63.8774ZM73.7215 63.8774H73.1059V62.9156C73.0207 62.9342 72.9425 62.9627 72.871 63.0011C72.8008 63.0382 72.7366 63.0809 72.6787 63.1292C72.622 63.1774 72.5709 63.2295 72.5252 63.2851C72.4809 63.3408 72.4415 63.3966 72.407 63.4522C72.3268 63.5822 72.2639 63.7239 72.2183 63.8774H71.6026C71.647 63.6732 71.7246 63.4795 71.8356 63.2963C71.8825 63.2183 71.9385 63.1391 72.0038 63.0586C72.0692 62.9769 72.1462 62.899 72.2349 62.8247C72.3238 62.7504 72.4248 62.6824 72.5382 62.6205C72.6529 62.5574 72.7816 62.5048 72.9247 62.4627C72.826 62.4281 72.7391 62.3884 72.6639 62.3439C72.5899 62.298 72.5222 62.2517 72.4605 62.2046C72.399 62.1576 72.341 62.1112 72.2868 62.0654C72.2338 62.0196 72.1789 61.9788 72.1222 61.9428C72.0667 61.9058 72.0069 61.8753 71.9428 61.8519C71.88 61.8284 71.8078 61.8154 71.7265 61.8129V61.2151C71.8386 61.2151 71.9379 61.2286 72.0242 61.2559C72.1104 61.2832 72.1894 61.319 72.2608 61.3636C72.3323 61.4082 72.399 61.4595 72.4605 61.5177C72.5234 61.5746 72.5869 61.6334 72.6509 61.694C72.7163 61.7535 72.7853 61.8122 72.858 61.8705C72.9308 61.9286 73.0134 61.9813 73.1059 62.0283V61.2151H73.7215V62.0283C73.814 61.9813 73.8965 61.9286 73.9692 61.8705C74.042 61.8122 74.1104 61.7535 74.1745 61.694C74.2398 61.6334 74.3033 61.5746 74.365 61.5177C74.4278 61.4595 74.495 61.4082 74.5664 61.3636C74.638 61.319 74.7168 61.2832 74.8032 61.2559C74.8895 61.2286 74.9887 61.2151 75.1008 61.2151V61.8129C75.0195 61.8154 74.9467 61.8284 74.8827 61.8519C74.8198 61.8753 74.76 61.9058 74.7033 61.9428C74.6478 61.9788 74.593 62.0196 74.5387 62.0654C74.4857 62.1112 74.4284 62.1576 74.3668 62.2046C74.3052 62.2517 74.2368 62.298 74.1616 62.3439C74.0876 62.3884 74.0014 62.4281 73.9027 62.4627C74.0457 62.5048 74.1739 62.5574 74.2873 62.6205C74.4007 62.6824 74.5017 62.7504 74.5906 62.8247C74.6793 62.899 74.7563 62.9769 74.8217 63.0586C74.8882 63.1391 74.9449 63.2183 74.9917 63.2963C75.1014 63.4795 75.1791 63.6732 75.2247 63.8774H74.6091C74.5634 63.7239 74.5005 63.5822 74.4204 63.4522C74.3859 63.3966 74.3458 63.3408 74.3003 63.2851C74.2558 63.2295 74.2048 63.1774 74.1468 63.1292C74.0901 63.0809 74.026 63.0382 73.9545 63.0011C73.8842 62.9627 73.8066 62.9342 73.7215 62.9156V63.8774ZM79.3084 61.2151H79.9241V63.8774H79.3084V62.7876H77.7091V63.8774H77.0934V61.2151H77.7091V62.251H79.3084V61.2151ZM83.6529 63.9517C83.3521 63.9517 83.0908 63.9145 82.8689 63.8402C82.6484 63.7647 82.4646 63.6633 82.3179 63.5357C82.1725 63.4071 82.064 63.258 81.9925 63.0884C81.9211 62.9176 81.8853 62.7368 81.8853 62.5463C81.8853 62.3556 81.9211 62.1755 81.9925 62.0059C82.064 61.8352 82.1725 61.686 82.3179 61.5586C82.4646 61.4298 82.6484 61.3284 82.8689 61.2541C83.0908 61.1786 83.3521 61.1409 83.6529 61.1409C83.9537 61.1409 84.2144 61.1786 84.435 61.2541C84.6569 61.3284 84.8406 61.4298 84.986 61.5586C85.1327 61.686 85.2418 61.8352 85.3133 62.0059C85.3848 62.1755 85.4205 62.3556 85.4205 62.5463C85.4205 62.7368 85.3848 62.9176 85.3133 63.0884C85.2418 63.258 85.1327 63.4071 84.986 63.5357C84.8406 63.6633 84.6569 63.7647 84.435 63.8402C84.2144 63.9145 83.9537 63.9517 83.6529 63.9517ZM83.6529 63.4151C83.8563 63.4151 84.0295 63.3909 84.1724 63.3427C84.3166 63.2945 84.4338 63.2307 84.5237 63.1515C84.615 63.071 84.6816 62.9789 84.7234 62.8748C84.7654 62.7696 84.7863 62.6601 84.7863 62.5463C84.7863 62.4336 84.7654 62.3247 84.7234 62.2195C84.6816 62.1142 84.615 62.0221 84.5237 61.9428C84.4338 61.8624 84.3166 61.798 84.1724 61.7498C84.0295 61.7015 83.8563 61.6774 83.6529 61.6774C83.4495 61.6774 83.2757 61.7015 83.1315 61.7498C82.9885 61.798 82.8714 61.8624 82.7802 61.9428C82.6902 62.0221 82.6243 62.1142 82.5824 62.2195C82.5405 62.3247 82.5195 62.4336 82.5195 62.5463C82.5195 62.6601 82.5405 62.7696 82.5824 62.8748C82.6243 62.9789 82.6902 63.071 82.7802 63.1515C82.8714 63.2307 82.9885 63.2945 83.1315 63.3427C83.2757 63.3909 83.4495 63.4151 83.6529 63.4151ZM89.9721 61.2151V61.7516H87.9955V63.8774H87.3798V61.2151H89.9721ZM93.5288 63.9517C93.228 63.9517 92.9668 63.9145 92.7449 63.8402C92.5243 63.7647 92.3406 63.6633 92.1939 63.5357C92.0484 63.4071 91.9399 63.258 91.8684 63.0884C91.797 62.9176 91.7612 62.7368 91.7612 62.5463C91.7612 62.3556 91.797 62.1755 91.8684 62.0059C91.9399 61.8352 92.0484 61.686 92.1939 61.5586C92.3406 61.4298 92.5243 61.3284 92.7449 61.2541C92.9668 61.1786 93.228 61.1409 93.5288 61.1409C93.8296 61.1409 94.0903 61.1786 94.3109 61.2541C94.5328 61.3284 94.7165 61.4298 94.8619 61.5586C95.0086 61.686 95.1177 61.8352 95.1892 62.0059C95.2607 62.1755 95.2964 62.3556 95.2964 62.5463C95.2964 62.7368 95.2607 62.9176 95.1892 63.0884C95.1177 63.258 95.0086 63.4071 94.8619 63.5357C94.7165 63.6633 94.5328 63.7647 94.3109 63.8402C94.0903 63.9145 93.8296 63.9517 93.5288 63.9517ZM93.5288 63.4151C93.7322 63.4151 93.9054 63.3909 94.0483 63.3427C94.1926 63.2945 94.3097 63.2307 94.3996 63.1515C94.4909 63.071 94.5575 62.9789 94.5993 62.8748C94.6413 62.7696 94.6622 62.6601 94.6622 62.5463C94.6622 62.4336 94.6413 62.3247 94.5993 62.2195C94.5575 62.1142 94.4909 62.0221 94.3996 61.9428C94.3097 61.8624 94.1926 61.798 94.0483 61.7498C93.9054 61.7015 93.7322 61.6774 93.5288 61.6774C93.3254 61.6774 93.1517 61.7015 93.0074 61.7498C92.8644 61.798 92.7474 61.8624 92.6562 61.9428C92.5661 62.0221 92.5002 62.1142 92.4583 62.2195C92.4164 62.3247 92.3954 62.4336 92.3954 62.5463C92.3954 62.6601 92.4164 62.7696 92.4583 62.8748C92.5002 62.9789 92.5661 63.071 92.6562 63.1515C92.7474 63.2307 92.8644 63.2945 93.0074 63.3427C93.1517 63.3909 93.3254 63.4151 93.5288 63.4151Z" fill="white"/>
+        <path d="M12.278 39.1924H16.8353L10.6628 44.3145L16.9177 51.0586H12.6571L8.25637 46.3087L6.96252 47.3846V51.0586H3.47656V39.1924H6.96252V43.6029L12.278 39.1924ZM36.8594 39.1924H40.3453V48.1459H43.3203V39.1924H46.8063V51.0586H30.3984V39.1924H33.8844V48.1459H36.8594V39.1924ZM62.4297 48.1459C62.6055 47.7982 62.7594 47.4038 62.8911 46.9625C63.023 46.5211 63.1356 46.0578 63.229 45.5723C63.3225 45.0868 63.3994 44.5931 63.4598 44.0911C63.5258 43.5891 63.5806 43.1009 63.6247 42.6264C63.718 41.5176 63.7675 40.3729 63.773 39.1924H74.9561V48.1459H76.5878V53.0859H73.1018V51.0586H64.185V53.0859H60.6991V48.1459H62.4297ZM71.4701 48.1459V42.1051H67.1765C67.1765 42.3754 67.1683 42.6844 67.1518 43.0319C67.1353 43.374 67.1106 43.7325 67.0777 44.1077C67.0447 44.4773 67.0007 44.8551 66.9458 45.2413C66.8908 45.6275 66.8276 45.9999 66.7562 46.3584C66.6848 46.7115 66.6024 47.0425 66.509 47.3514C66.4156 47.6604 66.3112 47.9251 66.1958 48.1459H71.4701ZM99.0183 48.5099C98.7765 48.9402 98.5211 49.3318 98.2519 49.6849C97.9881 50.038 97.675 50.3414 97.3124 50.5952C96.9497 50.8489 96.5213 51.0448 96.0267 51.1828C95.5323 51.3206 94.939 51.3896 94.2467 51.3896C93.7578 51.3896 93.3237 51.3676 92.9446 51.3234C92.571 51.2792 92.2524 51.2296 91.9886 51.1744C91.6865 51.1138 91.42 51.0393 91.1892 50.951L92.4172 48.2864C92.5161 48.3251 92.626 48.3583 92.7468 48.3857C92.8457 48.4133 92.9611 48.4355 93.0929 48.452C93.2303 48.4685 93.3704 48.4768 93.5133 48.4768C93.678 48.4768 93.8154 48.4547 93.9252 48.4106C94.0407 48.3665 94.1368 48.3086 94.2137 48.2368C94.2961 48.1596 94.3648 48.0741 94.4198 47.9803C94.4748 47.881 94.5269 47.7762 94.5763 47.6659L89.7306 39.1924H93.6863L96.958 45.1006L100.238 39.1924H104.194L99.0183 48.5099Z" fill="white"/>
+        <path d="M10.125 57.341H96.5586V58.5234H10.125V57.341Z" fill="white"/>
+      </svg>
     </div>
     <nav class="nav-links" aria-label="Розділи">
-      <a href="#programs" id="nav-a-prog">Програми</a>
-      <a href="https://kspa.com.ua" target="_blank" rel="noopener">Про школу</a>
+      <a href="#programs" id="nav-prog">Програми</a>
+      <a href="https://kspa.com.ua/about-us/" target="_blank" rel="noopener">Про школу</a>
+      <a href="https://kspa.com.ua/team/" target="_blank" rel="noopener">Команда</a>
     </nav>
-    <button class="nav-lang" aria-label="Мова">EN</button>
+    <div class="nav-right">
+      <button class="nav-lang">EN</button>
+    </div>
   </div>
 </nav>
 
 <main>
 
-<!-- ════════════════════ HOME PAGE ════════════════════ -->
+<!-- ══════════════════════════ HOME PAGE ════════════════════════════════ -->
 <div id="home-page" class="page">
 
   <!-- HERO -->
-  <section id="hero" aria-labelledby="hero-h">
-    <div class="hero-noise" aria-hidden="true"></div>
-    <div class="hero-grid" aria-hidden="true"></div>
-    <div class="wrap hero-c">
-      <p class="hero-eye">Київська Школа Державного Управління</p>
-      <h1 class="hero-h" id="hero-h">Навчай.<br><em>Управляй.</em><br>Міняй.</h1>
-      <p class="hero-sub">Освітня платформа для державних управлінців нового покоління. Програми, модулі, розклад і лектори — в одному місці.</p>
-      <a href="#programs" class="hero-btn" id="hero-btn">
-        Переглянути програми <span class="hero-btn-arr" aria-hidden="true">→</span>
+  <section id="hero">
+    <div class="h-glow" aria-hidden="true"></div>
+    <div class="h-grid" aria-hidden="true"></div>
+    <div class="w h-c">
+      <p class="h-eye">Kyiv School of Public Administration</p>
+      <h1 class="h-title">Навчай.<br><em>Управляй.</em><br>Міняй.</h1>
+      <p class="h-sub">Освітня платформа для державних управлінців нового покоління. Програми, модулі, розклад і лектори — в одному місці.</p>
+      <a href="#programs" class="h-btn" id="hero-btn">
+        Переглянути програми <span class="h-arr">→</span>
       </a>
-      <div class="hero-stats" aria-label="Статистика">
-        <div class="h-stat"><div class="h-stat-n" id="s-c">—</div><div class="h-stat-l">Програм</div></div>
-        <div class="h-stat"><div class="h-stat-n" id="s-m">—</div><div class="h-stat-l">Модулів</div></div>
-        <div class="h-stat"><div class="h-stat-n" id="s-s">50+</div><div class="h-stat-l">Лекторів</div></div>
+      <div class="h-stats">
+        <div class="h-stat"><div class="h-sn" id="s-c">—</div><div class="h-sl">Програм</div></div>
+        <div class="h-stat"><div class="h-sn" id="s-m">—</div><div class="h-sl">Модулів</div></div>
+        <div class="h-stat"><div class="h-sn">50+</div><div class="h-sl">Лекторів</div></div>
       </div>
     </div>
   </section>
 
-  <!-- PROGRAMS -->
-  <section class="section" id="programs" aria-labelledby="prog-h">
-    <div class="wrap">
-      <div class="sec-header">
+  <!-- FILTER + PROGRAMS -->
+  <div class="filter-bar" id="filter-bar">
+    <div class="w">
+      <div class="filters">
+        <span class="filter-label">Статус:</span>
+        <button class="filter-btn active" data-filter="all">Всі</button>
+        <button class="filter-btn" data-filter="active">Набір триває</button>
+        <button class="filter-btn" data-filter="soon">Йде зараз</button>
+        <button class="filter-btn" data-filter="done">Завершено</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" id="programs">
+    <div class="w">
+      <div class="sec-hd">
         <p class="sec-eye">Навчальні програми</p>
-        <h2 class="sec-h" id="prog-h">Наші курси</h2>
+        <h2 class="sec-h">Наші курси</h2>
         <p class="sec-sub">Оберіть програму, щоб переглянути модулі, розклад та лекторів.</p>
       </div>
-      <div class="courses-grid" id="courses-grid" role="list" aria-label="Список програм"></div>
+      <div class="courses-grid" id="courses-grid" role="list"></div>
+      <div id="no-results"><p>За вибраним фільтром програм не знайдено.</p></div>
     </div>
   </section>
 
 </div><!-- /home-page -->
 
-<!-- ════════════════════ COURSE PAGE ════════════════════ -->
+<!-- ══════════════════════════ COURSE PAGE ══════════════════════════════ -->
 <div id="course-page" class="page hidden">
-
-  <div class="c-header">
-    <div class="wrap">
-      <nav class="breadcrumb" aria-label="Шлях">
-        <span class="bc-link" id="bc-home" role="button" tabindex="0">Програми</span>
-        <span class="bc-sep" aria-hidden="true">›</span>
+  <div class="cp-header">
+    <div class="w">
+      <nav class="bc">
+        <span class="bc-a" id="bc-home" tabindex="0" role="button">Програми</span>
+        <span class="bc-sep">›</span>
         <span class="bc-cur" id="bc-cur">—</span>
       </nav>
-      <div class="c-tag" id="c-tag">Програма</div>
-      <h1 class="c-page-title" id="c-title">—</h1>
-      <div class="c-page-meta" id="c-meta"></div>
+      <div class="cp-tag" id="cp-tag">Програма</div>
+      <h1 class="cp-title" id="cp-title">—</h1>
+      <div class="cp-meta" id="cp-meta"></div>
     </div>
   </div>
-
-  <div class="mod-tabs-wrap" role="navigation" aria-label="Модулі">
-    <div class="mod-tabs" id="mod-tabs" role="tablist"></div>
+  <div class="mt-wrap">
+    <div class="mt" id="mod-tabs" role="tablist"></div>
   </div>
-
-  <div class="wrap">
-    <div class="mod-content" id="mod-content" role="tabpanel" aria-live="polite"></div>
+  <div class="w">
+    <div class="mc" id="mod-content" role="tabpanel" aria-live="polite"></div>
   </div>
-
-</div><!-- /course-page -->
+</div>
 
 </main>
 
 <footer>
-  <div class="wrap foot-i">
-    <span class="foot-logo">КШДУ / KSPA</span>
-    <span class="foot-copy">© 2025 Київська Школа Державного Управління</span>
-    <nav class="foot-links" aria-label="Footer">
-      <a href="https://kspa.com.ua" target="_blank" rel="noopener">Сайт школи</a>
-      <a href="https://kspa.com.ua/en/our-programs/" target="_blank" rel="noopener">Програми</a>
+  <div class="w f-i">
+    <span class="f-logo">КШДУ / KSPA</span>
+    <span class="f-copy">© 2025 Київська Школа Державного Управління імені Сергія Нижного</span>
+    <nav class="f-links">
+      <a href="https://kspa.com.ua" target="_blank" rel="noopener">kspa.com.ua</a>
+      <a href="https://kspa.com.ua/programs/" target="_blank" rel="noopener">Програми</a>
+      <a href="https://kspa.com.ua/team/" target="_blank" rel="noopener">Команда</a>
     </nav>
   </div>
 </footer>
@@ -347,515 +367,730 @@ footer{padding:44px 0;border-top:1px solid var(--ln)}
 'use strict';
 
 /* ═══════════════════════════════════════════════════════════════════════
-   SITE CONFIG
+   COURSES CONFIG
    ─────────────────────────────────────────────────────────────────────
-   Щоб додати нову програму — додайте об'єкт у масив COURSES.
-   Щоб додати новий модуль — додайте об'єкт у courses.modules.
-
-   csvUrl — публічне посилання з Google Sheets:
-   File → Share → Publish to web → оберіть аркуш → формат CSV → Copy link
-
-   Формат URL:
-   https://docs.google.com/spreadsheets/d/SHEET_ID/export?format=csv&gid=GID_NUMBER
+   status: 'active' | 'soon' | 'done'
+   category: 'management' | 'specialized' | 'soft' | 'sense'
+   csvUrl: "File → Share → Publish to web → оберіть аркуш → CSV"
 ═══════════════════════════════════════════════════════════════════════ */
 const COURSES = [
+
+  /* ── ФЛАГМАНСЬКІ / УПРАВЛІНСЬКІ ─────────────────────────────────── */
   {
-    id: 'school-ministers',
-    slug: 'school-ministers',
-    tag: 'Флагманська програма',
-    title: 'Школа Міністрів',
-    edition: 'XIII',
-    desc: 'Інтенсивна програма для державних службовців вищого рівня. Стратегічне мислення, реформи, лідерство та публічні комунікації.',
-    duration: '7 модулів',
-    format: 'Очно / Гібрид',
-    year: '2025–2026',
-    modules: [
-      {
-        id: 'module-1',
-        label: 'Модуль 1',
-        title: 'Система законодавства',
-        dates: '01–03 травня 2026',
-        // ← Вставте сюди посилання на CSV-публікацію першого аркуша
-        csvUrl: 'https://docs.google.com/spreadsheets/d/1FTfU0uAoTVgfcer-eN9qMjOZX9PZI5YSTp0SUEtBiA8/export?format=csv&gid=0',
-      },
-      {
-        id: 'module-2', label: 'Модуль 2', title: 'Стратегічне управління',
-        dates: '12–14 червня 2026',
-        csvUrl: '', // ← додайте CSV URL
-      },
-      {
-        id: 'module-3', label: 'Модуль 3', title: 'Економічна політика',
-        dates: '03–05 липня 2026', csvUrl: '',
-      },
-      {
-        id: 'module-4', label: 'Модуль 4', title: 'Публічні комунікації',
-        dates: '22–24 серпня 2026', csvUrl: '',
-      },
-      {
-        id: 'module-5', label: 'Модуль 5', title: 'Реформи та зміни',
-        dates: '10–12 вересня 2026', csvUrl: '',
-      },
-      {
-        id: 'module-6', label: 'Модуль 6', title: 'Міжнародна діяльність',
-        dates: '01–03 жовтня 2026', csvUrl: '',
-      },
-      {
-        id: 'module-7', label: 'Модуль 7', title: 'Підсумковий проект',
-        dates: '14–16 листопада 2026', csvUrl: '',
-      },
+    id:'school-ministers', slug:'school-ministers',
+    tag:'Флагманська програма', status:'active', category:'management',
+    title:'Школа Міністрів', edition:'XIII',
+    desc:'Унікальна програма підготовки вищого корпусу державних службовців. Стратегічне мислення, реформи, лідерство та публічні комунікації.',
+    duration:'7 модулів', format:'Очно / Гібрид', year:'2025–2026',
+    url:'https://kspa.com.ua/school-of-ministers/',
+    modules:[
+      { id:'module-1', label:'Модуль 1', title:'Система законодавства',   dates:'01–03 трав 2026',
+        csvUrl:'https://docs.google.com/spreadsheets/d/1FTfU0uAoTVgfcer-eN9qMjOZX9PZI5YSTp0SUEtBiA8/export?format=csv&gid=0' },
+      { id:'module-2', label:'Модуль 2', title:'Стратегічне управління',  dates:'12–14 чер 2026', csvUrl:'' },
+      { id:'module-3', label:'Модуль 3', title:'Економічна політика',     dates:'03–05 лип 2026', csvUrl:'' },
+      { id:'module-4', label:'Модуль 4', title:'Публічні комунікації',    dates:'22–24 сер 2026', csvUrl:'' },
+      { id:'module-5', label:'Модуль 5', title:'Реформи та зміни',        dates:'10–12 вер 2026', csvUrl:'' },
+      { id:'module-6', label:'Модуль 6', title:'Міжнародна діяльність',   dates:'01–03 жов 2026', csvUrl:'' },
+      { id:'module-7', label:'Модуль 7', title:'Підсумковий проект',      dates:'14–16 лис 2026', csvUrl:'' },
     ]
   },
-  // ─── ДОДАТИ НОВУ ПРОГРАМУ НИЖЧЕ ──────────────────────────────────────
-  // {
-  //   id: 'school-deputies', slug: 'school-deputies',
-  //   tag: 'Програма', title: 'Школа Народних Депутатів', edition: 'V',
-  //   desc: 'Програма для народних депутатів та їх команд.',
-  //   duration: '5 модулів', format: 'Очно', year: '2026',
-  //   modules: [
-  //     { id: 'module-1', label: 'Модуль 1', title: 'Законодавчий процес',
-  //       dates: '...', csvUrl: '...' },
-  //   ]
-  // },
+  {
+    id:'engineering-management', slug:'engineering-management',
+    tag:'Управлінський розвиток', status:'active', category:'management',
+    title:'Інженерія Управління', edition:'',
+    desc:'Формаційна програма для управлінців вищої ланки, яка охоплює всі ключові теми для розвитку топ-менеджерів і керівників.',
+    duration:'Кілька модулів', format:'Офлайн', year:'2025–2026',
+    url:'https://kspa.com.ua/inzheneriya-upravlinnya/',
+    modules:[
+      { id:'module-1', label:'Модуль 1', title:'Введення', dates:'', csvUrl:'' },
+    ]
+  },
+  {
+    id:'city-management', slug:'city-management',
+    tag:'Магістерська програма', status:'active', category:'management',
+    title:'City Management', edition:'',
+    desc:'Акредитована магістерська програма з управління містом.',
+    duration:'2 роки', format:'Офлайн', year:'2025–2026',
+    url:'https://kspa.com.ua/city-management/',
+    modules:[
+      { id:'module-1', label:'Модуль 1', title:'Введення', dates:'', csvUrl:'' },
+    ]
+  },
+  {
+    id:'architecture-of-abundance', slug:'architecture-of-abundance',
+    tag:'Формаційна програма', status:'active', category:'management',
+    title:'Архітектура Достатку', edition:'',
+    desc:'Формаційна програма про стратегії добробуту, ресурси та управлінське мислення.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2025',
+    url:'https://kspa.com.ua/arhitektura-dostatku/',
+    modules:[
+      { id:'module-1', label:'Модуль 1', title:'Введення', dates:'', csvUrl:'' },
+    ]
+  },
+  {
+    id:'general-management', slug:'general-management',
+    tag:'Операційний менеджмент', status:'done', category:'management',
+    title:'General Management', edition:'',
+    desc:'Велика практична програма про операційний менеджмент для керівників.',
+    duration:'Кілька модулів', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/general-management/',
+    modules:[]
+  },
+
+  /* ── СПЕЦІАЛІЗОВАНІ ─────────────────────────────────────────────── */
+  {
+    id:'gr-advocacy', slug:'gr-advocacy',
+    tag:'Авторський курс', status:'active', category:'specialized',
+    title:'GR та адвокація', edition:'',
+    desc:'Як лобіювати зміни до публічної політики. Авторський курс Романа Кобця.',
+    duration:'1 модуль', format:'Офлайн', year:'2025',
+    url:'https://kspa.com.ua/gr-ta-advokatsiia-yak-lobiiuvaty-zminy-do-publichnoi-polityky/',
+    modules:[]
+  },
+  {
+    id:'strategy-works', slug:'strategy-works',
+    tag:'Семінар', status:'active', category:'specialized',
+    title:'Як змусити стратегію працювати', edition:'',
+    desc:'Дводенний семінар про реалізацію стратегій в умовах невизначеності.',
+    duration:'2 дні', format:'Офлайн', year:'2025',
+    url:'https://kspa.com.ua/yak-zmusyty-stratehiiu-pratsiuvaty/',
+    modules:[]
+  },
+  {
+    id:'war-damages', slug:'war-damages',
+    tag:'Авторський курс', status:'active', category:'specialized',
+    title:'Гід з відшкодування воєнних збитків', edition:'',
+    desc:'Національний і міжнародний механізм компенсації — від А до Я. Авторський курс Ольги Оніщук.',
+    duration:'1 модуль', format:'Офлайн', year:'2025',
+    url:'https://kspa.com.ua/hid-z-vidshkoduvannia-voiennykh-zbytkiv-natsionalnyi-i-mizhnarodnyi-mekhanizm-kompensatsii-vid-a-do-ya/',
+    modules:[]
+  },
+  {
+    id:'facilitation', slug:'facilitation',
+    tag:'Практична програма', status:'active', category:'specialized',
+    title:'Фасилітація команд', edition:'',
+    desc:'Як приводити до згоди, ухвалювати рішення і запускати дії. Практична програма для управлінців.',
+    duration:'1–2 дні', format:'Офлайн', year:'2025',
+    url:'https://kspa.com.ua/fasylitacziya-komand-yak-pryvodyty-do-zgody-uhvalyuvaty-rishennya-i-zapuskaty-diyi/',
+    modules:[]
+  },
+  {
+    id:'ai-3', slug:'ai-3',
+    tag:'Практикум', status:'active', category:'specialized',
+    title:'AI 3.0: Людина. Машина. Рішення.', edition:'',
+    desc:'Дводенний практикум для керівників, власників і топменеджерів.',
+    duration:'2 дні', format:'Офлайн', year:'2025',
+    url:'https://kspa.com.ua/ai-3-0-lyudyna-mashyna-rishennya/',
+    modules:[]
+  },
+  {
+    id:'neuromarketing', slug:'neuromarketing',
+    tag:'Авторський курс', status:'soon', category:'specialized',
+    title:'Нейромаркетинг', edition:'',
+    desc:'Авторський курс Катерини Ільченко про психологію прийняття рішень.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2025',
+    url:'https://kspa.com.ua/nejromarketyng/',
+    modules:[]
+  },
+  {
+    id:'strategic-thinking', slug:'strategic-thinking',
+    tag:'Авторський курс', status:'done', category:'specialized',
+    title:'Стратегічне мислення', edition:'',
+    desc:'Прийняття та реалізація стратегічних рішень в умовах невизначеності та складності. Авторський курс Андрія Крючкова.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/strategichne-myslennya-pryjnyattya-ta-realizacziya-strategichnyh-rishen-v-umovah-nevyznachenosti-ta-skladnosti/',
+    modules:[]
+  },
+  {
+    id:'evidence-management', slug:'evidence-management',
+    tag:'Програма', status:'done', category:'specialized',
+    title:'Доказове управління', edition:'',
+    desc:'Дані. Статистика. Аналітика.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/dokazove-upravlinnya-dani-statystyka-analityka/',
+    modules:[]
+  },
+  {
+    id:'cybersecurity', slug:'cybersecurity',
+    tag:'Тренінгова програма', status:'done', category:'specialized',
+    title:'Кібербезпека для управлінців', edition:'',
+    desc:'Експертна тренінгова програма для організацій та бізнесів.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/kiberbezpeka-dlya-upravlincziv-organizaczij-ta-biznesiv/',
+    modules:[]
+  },
+  {
+    id:'export-markets', slug:'export-markets',
+    tag:'Програма-стратегія', status:'done', category:'specialized',
+    title:'Експорт і глобальні ринки', edition:'',
+    desc:'Від стратегій до угод.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/eksport-i-globalni-rynky-vid-strategij-do-ugod/',
+    modules:[]
+  },
+  {
+    id:'great-strategy', slug:'great-strategy',
+    tag:'Авторська програма', status:'done', category:'specialized',
+    title:'Велика стратегія: що це?', edition:'',
+    desc:'Авторська програма Олександра Литвиненка.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/velyka-strategiya-shho-cze/',
+    modules:[]
+  },
+
+  /* ── SOFT SKILLS / ОСОБИСТІСНИЙ ─────────────────────────────────── */
+  {
+    id:'neuromarketing-kat', slug:'neuromarketing-kat',
+    tag:'Авторський курс', status:'soon', category:'soft',
+    title:'Нейромаркетинг', edition:'',
+    desc:'Авторський курс Катерини Ільченко про ірраціональну поведінку та вплив.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2025',
+    url:'https://kspa.com.ua/nejromarketyng/',
+    modules:[]
+  },
+  {
+    id:'dante', slug:'dante',
+    tag:'Сенсотворчі бесіди', status:'soon', category:'sense',
+    title:'Данте Аліг\'єрі "Божественна комедія"', edition:'',
+    desc:'Повільні читання з Олександром Філоненком.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2025',
+    url:'https://kspa.com.ua/dante-aligyeri-bozhestvenna-komediya-povilni-chytannya-z-oleksandrom-filonenko/',
+    modules:[]
+  },
+  {
+    id:'system-thinking', slug:'system-thinking',
+    tag:'Семінар', status:'done', category:'soft',
+    title:'Системне мислення в управлінні', edition:'',
+    desc:'Дводенний семінар Михайла Ларіончева.',
+    duration:'2 дні', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/systemne-myslennya-v-upravlinni/',
+    modules:[]
+  },
+  {
+    id:'public-speaking', slug:'public-speaking',
+    tag:'Тренінг', status:'done', category:'soft',
+    title:'Інтенсив з ораторської майстерності', edition:'',
+    desc:'Тренінг з ораторської майстерності та самопрезентації.',
+    duration:'1–2 дні', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/intensyv-z-oratorskoyi-majsternosti-ta-samoprezentacziyi/',
+    modules:[]
+  },
+  {
+    id:'negotiation', slug:'negotiation',
+    tag:'Тренінговий курс', status:'done', category:'soft',
+    title:'Мистецтво переговорів', edition:'',
+    desc:'Від конфронтації до співпраці.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/mistetstvo-peregovoriv-vid-konfrontatsiyi-do-spivpratsi/',
+    modules:[]
+  },
+  {
+    id:'creative-thinking', slug:'creative-thinking',
+    tag:'Тренінг', status:'done', category:'soft',
+    title:'Креативне мислення', edition:'',
+    desc:'Мистецтво бачити нові можливості. Одноденний тренінг.',
+    duration:'1 день', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/kreatyvne-myslennya-mystecztvo-bachyty-novi-mozhlyvosti/',
+    modules:[]
+  },
+  {
+    id:'change-management', slug:'change-management',
+    tag:'Воркшоп', status:'done', category:'soft',
+    title:'Управління змінами в організації', edition:'',
+    desc:'Від теорії до практики.',
+    duration:'1–2 дні', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/upravlinnya-zminamy-v-organizacziyi-vid-teoriyi-do-praktyky/',
+    modules:[]
+  },
+  {
+    id:'inclusive-leadership', slug:'inclusive-leadership',
+    tag:'Воркшоп', status:'done', category:'soft',
+    title:'Інклюзивне лідерство', edition:'',
+    desc:'Для управлінців, лідерів бізнесу та членів бордів. Воркшоп Ніни Домбровської.',
+    duration:'1 день', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/inklyuzyvne-liderstvo-dlya-upravlincziv-lideriv-biznesu-ta-chleniv-bordiv/',
+    modules:[]
+  },
+  {
+    id:'design-thinking', slug:'design-thinking',
+    tag:'Тренінг', status:'done', category:'soft',
+    title:'Лабораторія ідей: дизайн-мислення', edition:'',
+    desc:'Тренінг Оксани Сєдашової.',
+    duration:'1 день', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/laboratoriya-idej-dyzajn-myslennya-v-diyi/',
+    modules:[]
+  },
+  {
+    id:'ai-leadership', slug:'ai-leadership',
+    tag:'Практикум', status:'done', category:'specialized',
+    title:'AI 2.0: Leadership & Creativity', edition:'',
+    desc:'Дводенний практикум про штучний інтелект у лідерстві.',
+    duration:'2 дні', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/ai-2-0-leadership-creativity/',
+    modules:[]
+  },
+
+  /* ── СЕНСОТВОРЧІ / PHILOSOPHY ───────────────────────────────────── */
+  {
+    id:'transformational-anthro', slug:'transformational-anthro',
+    tag:'Авторська програма', status:'done', category:'sense',
+    title:'Трансформаційна антропологія', edition:'',
+    desc:'Авторська програма Олександра Філоненка.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/transformaczijna-antropologiya/',
+    modules:[]
+  },
+  {
+    id:'philosophy-privacy', slug:'philosophy-privacy',
+    tag:'Авторський курс', status:'done', category:'sense',
+    title:'Філософія приватності, публічності, влади', edition:'',
+    desc:'Авторський курс Вахтанґа Кебуладзе.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/filosofiya-pryvatnosti-publichnosti-vlady/',
+    modules:[]
+  },
+  {
+    id:'macro-thinking', slug:'macro-thinking',
+    tag:'Тренінг', status:'done', category:'specialized',
+    title:'МакроМислення для проривних рішень', edition:'',
+    desc:'Тренінг Бориса Малишева.',
+    duration:'1–2 дні', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/makromyslennya-dlya-proryvnyh-upravlinskyh-rishen/',
+    modules:[]
+  },
+  {
+    id:'game-theory', slug:'game-theory',
+    tag:'Інтерактивний курс', status:'done', category:'sense',
+    title:'Теорія ігор', edition:'',
+    desc:'Інтерактивний курс Олексія Ігнатенка.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2024',
+    url:'https://kspa.com.ua/teoriya-igor/',
+    modules:[]
+  },
+  {
+    id:'singapore', slug:'singapore',
+    tag:'Міжнародна програма', status:'done', category:'management',
+    title:'Сінгапурська Школа Державного Управління', edition:'',
+    desc:'Курс від викладачів державної політики Лі Куан Ю.',
+    duration:'Кілька сесій', format:'Офлайн', year:'2023',
+    url:'https://kspa.com.ua/singapoore/',
+    modules:[]
+  },
 ];
 
-/* ═══ EVENT TYPES — автоматичне визначення типу за назвою події ═════ */
-const EV_TYPES = {
-  'лекці':     { l: 'Лекція',     c: 'b-lecture'   },
-  'lecture':   { l: 'Лекція',     c: 'b-lecture'   },
-  'тренінг':   { l: 'Тренінг',    c: 'b-training'  },
-  'training':  { l: 'Тренінг',    c: 'b-training'  },
-  'воркшоп':   { l: 'Практикум',  c: 'b-workshop'  },
-  'практикум': { l: 'Практикум',  c: 'b-workshop'  },
-  'workshop':  { l: 'Практикум',  c: 'b-workshop'  },
-  'кава':      { l: 'Кава-брейк', c: 'b-break'     },
-  'перерва':   { l: 'Перерва',    c: 'b-break'     },
-  'break':     { l: 'Перерва',    c: 'b-break'     },
-  'welcome':   { l: 'Кава-брейк', c: 'b-break'     },
-  'обід':      { l: 'Обід',       c: 'b-lunch'     },
-  'lunch':     { l: 'Обід',       c: 'b-lunch'     },
-  'симуляці':  { l: 'Симуляція',  c: 'b-simulation'},
-  'simulation':{ l: 'Симуляція',  c: 'b-simulation'},
-  'гра':       { l: 'Симуляція',  c: 'b-simulation'},
-  'гість':     { l: 'Гість',      c: 'b-guest'     },
-  'guest':     { l: 'Гість',      c: 'b-guest'     },
-  'дискусі':   { l: 'Дискусія',   c: 'b-guest'     },
-  'панел':     { l: 'Дискусія',   c: 'b-guest'     },
+/* ═══ ICONS ════════════════════════════════════════════════════════════ */
+const SVG={
+  fb:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`,
+  li:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`,
+  gl:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
 };
 
-/* ═══ SVG ICONS ═══════════════════════════════════════════════════════ */
-const SVG = {
-  fb: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`,
-  li: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`,
-  gl: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+/* ═══ EVENT TYPES ═══════════════════════════════════════════════════════ */
+const EV={
+  'лекці':{l:'Лекція',c:'b-lec'},
+  'lecture':{l:'Лекція',c:'b-lec'},
+  'тренінг':{l:'Тренінг',c:'b-trn'},
+  'training':{l:'Тренінг',c:'b-trn'},
+  'воркшоп':{l:'Практикум',c:'b-wrk'},
+  'практикум':{l:'Практикум',c:'b-wrk'},
+  'workshop':{l:'Практикум',c:'b-wrk'},
+  'кава':{l:'Кава',c:'b-brk'},
+  'перерва':{l:'Перерва',c:'b-brk'},
+  'break':{l:'Перерва',c:'b-brk'},
+  'welcome':{l:'Welcome',c:'b-brk'},
+  'обід':{l:'Обід',c:'b-lun'},
+  'lunch':{l:'Обід',c:'b-lun'},
+  'симуляці':{l:'Симуляція',c:'b-sim'},
+  'simulation':{l:'Симуляція',c:'b-sim'},
+  'гра':{l:'Гра',c:'b-sim'},
+  'гість':{l:'Гість',c:'b-gst'},
+  'guest':{l:'Гість',c:'b-gst'},
+  'дискусі':{l:'Дискусія',c:'b-gst'},
+  'панел':{l:'Дискусія',c:'b-gst'},
 };
 
-/* ═══ STATE ═══════════════════════════════════════════════════════════ */
-let currentCourse = null;
-let csvCache = {};
+/* ═══ STATUS LABELS ════════════════════════════════════════════════════ */
+const STATUS={
+  active:{label:'Набір триває',cls:'status-active'},
+  soon:  {label:'Йде зараз',  cls:'status-soon'},
+  done:  {label:'Завершено',  cls:'status-done'},
+};
 
-/* ═══ CSV PARSER ══════════════════════════════════════════════════════ */
-function parseCSV(raw) {
-  const lines = raw.split(/\r?\n/);
-  if (!lines.length) return [];
+/* ═══ STATE ═════════════════════════════════════════════════════════════ */
+let currentCourse=null;
+let csvCache={};
 
-  function splitLine(line) {
-    const cols = []; let cur = ''; let q = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"') { if (q && line[i+1]==='"'){cur+='"';i++;}else q=!q; }
-      else if (ch === ',' && !q) { cols.push(cur.trim()); cur = ''; }
-      else cur += ch;
-    }
-    cols.push(cur.trim()); return cols;
+/* ═══ UTILS ════════════════════════════════════════════════════════════ */
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function ini(n){if(!n)return'?';const p=n.trim().split(/\s+/);return p.length===1?p[0].slice(0,2).toUpperCase():(p[0][0]+p[p.length-1][0]).toUpperCase()}
+function plural(n,a,b,c){const m=n%10,h=n%100;if(m===1&&h!==11)return a;if(m>=2&&m<=4&&(h<10||h>=20))return b;return c}
+
+function detectType(ev){
+  if(!ev)return null;
+  const lo=ev.toLowerCase();
+  for(const[k,v]of Object.entries(EV)){if(lo.includes(k))return v}
+  return null;
+}
+
+function parseSocials(s){
+  if(!s)return{};
+  const res={};
+  for(const u of s.trim().split(/\s+/).filter(Boolean)){
+    const lo=u.toLowerCase();
+    if(lo.includes('facebook'))res.fb=u;
+    else if(lo.includes('linkedin'))res.li=u;
+    else if(u.startsWith('http'))res.gl=u;
   }
+  return res;
+}
 
-  const headers = splitLine(lines[0]).map(h => h.toLowerCase().trim());
-  const rows = [];
-  for (let i = 1; i < lines.length; i++) {
-    const l = lines[i].trim(); if (!l) continue;
-    const cols = splitLine(l);
-    const row = {}; headers.forEach((h,idx) => { row[h] = cols[idx] || ''; });
+function renderSocials(s){
+  const sc=parseSocials(s);let h='';
+  if(sc.fb)h+=`<a href="${esc(sc.fb)}" class="sp-soc" target="_blank" rel="noopener" title="Facebook">${SVG.fb}</a>`;
+  if(sc.li)h+=`<a href="${esc(sc.li)}" class="sp-soc" target="_blank" rel="noopener" title="LinkedIn">${SVG.li}</a>`;
+  if(sc.gl)h+=`<a href="${esc(sc.gl)}" class="sp-soc" target="_blank" rel="noopener" title="Веб-сайт">${SVG.gl}</a>`;
+  return h;
+}
+
+function miniAv(photo,name){
+  if(photo&&photo.startsWith('http'))
+    return `<img class="av-s" src="${esc(photo)}" alt="${esc(name)}" loading="lazy" onerror="this.outerHTML='<div class=av-si>${ini(name)}</div>'">`;
+  return `<div class="av-si">${ini(name)}</div>`;
+}
+function fullAv(photo,name){
+  if(photo&&photo.startsWith('http'))
+    return `<img src="${esc(photo)}" alt="${esc(name)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=sp-av-i>${ini(name)}</div>'">`;
+  return `<div class="sp-av-i">${ini(name)}</div>`;
+}
+
+/* ═══ CSV ═══════════════════════════════════════════════════════════════ */
+function parseCSV(raw){
+  const lines=raw.split(/\r?\n/);
+  if(!lines.length)return[];
+  function sp(line){
+    const cols=[];let cur='';let q=false;
+    for(let i=0;i<line.length;i++){
+      const c=line[i];
+      if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;}
+      else if(c===','&&!q){cols.push(cur.trim());cur='';}
+      else cur+=c;
+    }
+    cols.push(cur.trim());return cols;
+  }
+  const hdr=sp(lines[0]).map(h=>h.toLowerCase().trim());
+  const rows=[];
+  for(let i=1;i<lines.length;i++){
+    const l=lines[i].trim();if(!l)continue;
+    const cols=sp(l);const row={};
+    hdr.forEach((h,idx)=>{row[h]=cols[idx]||'';});
     rows.push(row);
   }
   return rows;
 }
 
-/* ═══ FETCH CSV (with cache + CORS proxy fallback) ════════════════════ */
-async function fetchCSV(url) {
-  if (!url) return null;
-  if (csvCache[url]) return csvCache[url];
-
-  const proxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-
-  const attempt = async (u) => {
-    const r = await fetch(u, { cache: 'no-store' });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
+async function fetchCSV(url){
+  if(!url)return null;
+  if(csvCache[url])return csvCache[url];
+  const proxy=`https://corsproxy.io/?${encodeURIComponent(url)}`;
+  const go=async(u)=>{
+    const r=await fetch(u,{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
     return parseCSV(await r.text());
   };
-
-  try {
-    const rows = await attempt(url);
-    csvCache[url] = rows; return rows;
-  } catch {
-    try {
-      const rows = await attempt(proxy);
-      csvCache[url] = rows; return rows;
-    } catch (e) {
-      console.warn('CSV fetch failed:', e); return null;
-    }
+  try{const d=await go(url);csvCache[url]=d;return d;}
+  catch{
+    try{const d=await go(proxy);csvCache[url]=d;return d;}
+    catch(e){console.warn('CSV fail',e);return null;}
   }
 }
 
-/* ═══ HELPERS ════════════════════════════════════════════════════════ */
-function esc(s) {
-  if (!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+/* ═══ RENDER SCHEDULE ══════════════════════════════════════════════════ */
+function renderSchedule(rows){
+  const valid=rows.filter(r=>Object.values(r).some(v=>v&&v.trim()));
+  if(!valid.length)return stateH('📋','Розклад відсутній','В таблиці ще немає даних. Заповніть Google Sheets і CSV підтягнеться автоматично.');
 
-function initials(name) {
-  if (!name) return '?';
-  const p = name.trim().split(/\s+/);
-  return p.length === 1 ? p[0].slice(0,2).toUpperCase() : (p[0][0]+p[p.length-1][0]).toUpperCase();
-}
-
-function detectType(evName) {
-  if (!evName) return null;
-  const lo = evName.toLowerCase();
-  for (const [key, val] of Object.entries(EV_TYPES)) {
-    if (lo.includes(key)) return val;
+  const groups=new Map();
+  for(const row of valid){
+    const day=row['day']||'',date=row['date']||'';
+    if(!day&&!date)continue;
+    const key=`${day}||${date}`;
+    if(!groups.has(key))groups.set(key,{day,date,events:[]});
+    groups.get(key).events.push(row);
   }
-  return null;
+  if(!groups.size)return stateH('📋','Дані порожні','Таблиця не містить рядків з колонками DAY/DATE.');
+
+  return[...groups.values()].map(g=>{
+    const evs=g.events.map(row=>{
+      const time=row['time']||'',ev=row['event']||'';
+      const topic=row['topic']||'',desc=row['description']||row['desc']||'';
+      const type=detectType(ev);
+      const badge=type?`<span class="ev-badge ${type.c}">${type.l}</span>`:'';
+      let chips='';
+      for(let i=1;i<=3;i++){
+        const name=(row[i===1?'speaker 1':`speaker ${i}`]||'').trim();
+        const photo=row[i===1?'speaker 1 photo':`speaker ${i} photo`]||'';
+        if(!name)continue;
+        chips+=`<div class="ev-chip">${miniAv(photo,name)}<span>${esc(name)}</span></div>`;
+      }
+      return `<div class="ev-row">
+        <div class="ev-tc"><span class="ev-time">${esc(time)}</span>${badge}</div>
+        <div class="ev-bc">
+          <div class="ev-ttl">${esc(ev)}</div>
+          ${topic?`<div class="ev-top">${esc(topic)}</div>`:''}
+          ${desc?`<div class="ev-dsc">${esc(desc)}</div>`:''}
+          ${chips?`<div class="ev-chips">${chips}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="day-g">
+      <div class="day-hd"><span class="day-name">${esc(g.day)}</span><span class="day-date">${esc(g.date)}</span></div>
+      <div class="ev-list">${evs}</div>
+    </div>`;
+  }).join('');
 }
 
-function parseSocials(s) {
-  if (!s) return {};
-  const urls = s.trim().split(/\s+/).filter(Boolean);
-  const res = {};
-  for (const u of urls) {
-    const lo = u.toLowerCase();
-    if (lo.includes('facebook')) res.fb = u;
-    else if (lo.includes('linkedin')) res.li = u;
-    else if (u.startsWith('http')) res.gl = u;
-  }
-  return res;
-}
-
-function renderSocials(s) {
-  const sc = parseSocials(s); let h = '';
-  if (sc.fb) h += `<a href="${esc(sc.fb)}" class="sp-soc" target="_blank" rel="noopener" aria-label="Facebook">${SVG.fb}</a>`;
-  if (sc.li) h += `<a href="${esc(sc.li)}" class="sp-soc" target="_blank" rel="noopener" aria-label="LinkedIn">${SVG.li}</a>`;
-  if (sc.gl) h += `<a href="${esc(sc.gl)}" class="sp-soc" target="_blank" rel="noopener" aria-label="Веб-сайт">${SVG.gl}</a>`;
-  return h;
-}
-
-function avatarMini(photo, name) {
-  if (photo && photo.startsWith('http'))
-    return `<img class="av-mini" src="${esc(photo)}" alt="${esc(name)}" loading="lazy"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-             <div class="av-mini-init" style="display:none">${initials(name)}</div>`;
-  return `<div class="av-mini-init">${initials(name)}</div>`;
-}
-
-function avatarFull(photo, name) {
-  if (photo && photo.startsWith('http'))
-    return `<img src="${esc(photo)}" alt="${esc(name)}" loading="lazy"
-             onerror="this.parentElement.innerHTML='<div class=sp-av-init>${initials(name)}</div>'">`;
-  return `<div class="sp-av-init">${initials(name)}</div>`;
-}
-
-function plural(n, one, few, many) {
-  const m10 = n%10, m100 = n%100;
-  if (m10===1 && m100!==11) return one;
-  if (m10>=2 && m10<=4 && (m100<10||m100>=20)) return few;
-  return many;
-}
-
-/* ═══ EXTRACT SPEAKERS from CSV rows ═════════════════════════════════ */
-function extractSpeakers(rows) {
-  const seen = new Set(); const speakers = [];
-  for (const row of rows) {
-    for (let i = 1; i <= 3; i++) {
-      const nk = i===1 ? 'speaker 1' : `speaker ${i}`;
-      const name = (row[nk] || '').trim();
-      if (!name || seen.has(name.toLowerCase())) continue;
+/* ═══ RENDER SPEAKERS ══════════════════════════════════════════════════ */
+function extractSpeakers(rows){
+  const seen=new Set();const speakers=[];
+  for(const row of rows){
+    for(let i=1;i<=3;i++){
+      const nk=i===1?'speaker 1':`speaker ${i}`;
+      const name=(row[nk]||'').trim();
+      if(!name||seen.has(name.toLowerCase()))continue;
       seen.add(name.toLowerCase());
-      const dk = i===1 ? 'speaker 1 description' : `speaker ${i} description`;
-      const sk = i===1 ? 'speaker 1 socials'     : `speaker ${i} socials`;
-      const pk = i===1 ? 'speaker 1 photo'        : `speaker ${i} photo`;
-      speakers.push({
-        name, desc: row[dk]||'', socials: row[sk]||'',
-        photo: row[pk]||'', topic: row['topic']||'',
-        type: detectType(row['event']||''),
-      });
+      const dk=i===1?'speaker 1 description':`speaker ${i} description`;
+      const sk=i===1?'speaker 1 socials':`speaker ${i} socials`;
+      const pk=i===1?'speaker 1 photo':`speaker ${i} photo`;
+      speakers.push({name,desc:row[dk]||'',socials:row[sk]||'',photo:row[pk]||'',topic:row['topic']||'',type:detectType(row['event']||'')});
     }
   }
   return speakers;
 }
 
-/* ═══ RENDER SCHEDULE ═════════════════════════════════════════════════ */
-function renderSchedule(rows) {
-  const valid = rows.filter(r => Object.values(r).some(v=>v&&v.trim()));
-  if (!valid.length) return stateHTML('📋','Розклад відсутній','Дані в таблиці ще не додані або вона порожня.');
-
-  // Group by DAY+DATE
-  const groups = new Map();
-  for (const row of valid) {
-    const day = row['day']||''; const date = row['date']||'';
-    if (!day && !date) continue;
-    const key = `${day}||${date}`;
-    if (!groups.has(key)) groups.set(key, {day,date,events:[]});
-    groups.get(key).events.push(row);
-  }
-  if (!groups.size) return stateHTML('📋','Дані порожні','Таблиця не містить рядків з DAY/DATE.');
-
-  return [...groups.values()].map(g => {
-    const evs = g.events.map(row => {
-      const t = row['time']||'', ev = row['event']||'';
-      const topic = row['topic']||'', desc = row['description']||row['desc']||'';
-      const type = detectType(ev);
-      const badge = type ? `<span class="ev-badge ${type.c}">${type.l}</span>` : '';
-
-      let chips = '';
-      for (let i=1;i<=3;i++){
-        const name=(row[i===1?'speaker 1':`speaker ${i}`]||'').trim();
-        const photo=row[i===1?'speaker 1 photo':`speaker ${i} photo`]||'';
-        if(!name) continue;
-        chips+=`<div class="ev-chip">${avatarMini(photo,name)}<span>${esc(name)}</span></div>`;
-      }
-
-      return `<div class="ev-row">
-        <div class="ev-time-col">
-          <span class="ev-time">${esc(t)}</span>${badge}
-        </div>
-        <div class="ev-body-col">
-          <div class="ev-title">${esc(ev)}</div>
-          ${topic?`<div class="ev-topic">${esc(topic)}</div>`:''}
-          ${desc ?`<div class="ev-desc">${esc(desc)}</div>`:''}
-          ${chips?`<div class="ev-chips">${chips}</div>`:''}
-        </div>
-      </div>`;
-    }).join('');
-
-    return `<div class="day-group">
-      <div class="day-header">
-        <span class="day-name">${esc(g.day)}</span>
-        <span class="day-date">${esc(g.date)}</span>
-      </div>
-      <div class="ev-list" role="list">${evs}</div>
-    </div>`;
-  }).join('');
-}
-
-/* ═══ RENDER SPEAKER CARDS ════════════════════════════════════════════ */
-function renderSpeakers(speakers) {
-  if (!speakers.length) return '';
-  const cards = speakers.map(sp => {
-    const type = sp.type;
-    const badge = type ? `<span class="sp-badge ${type.c}">${type.l}</span>` : '';
-    const soc = renderSocials(sp.socials);
-    return `<div class="sp-card">
-      <div class="sp-av">${avatarFull(sp.photo,sp.name)}</div>
+function renderSpeakers(speakers){
+  if(!speakers.length)return'';
+  const cards=speakers.map(sp=>{
+    const t=sp.type;const badge=t?`<span class="sp-bdg ${t.c}">${t.l}</span>`:'';
+    const soc=renderSocials(sp.socials);
+    return`<div class="sp-card">
+      <div class="sp-av">${fullAv(sp.photo,sp.name)}</div>
       ${badge}
       <div class="sp-name">${esc(sp.name)}</div>
-      ${sp.desc  ? `<div class="sp-role">${esc(sp.desc)}</div>`  : ''}
-      ${sp.topic ? `<div class="sp-topic">${esc(sp.topic)}</div>` : ''}
-      ${soc ? `<div class="sp-socials">${soc}</div>` : ''}
+      ${sp.desc?`<div class="sp-role">${esc(sp.desc)}</div>`:''}
+      ${sp.topic?`<div class="sp-topic">${esc(sp.topic)}</div>`:''}
+      ${soc?`<div class="sp-socs">${soc}</div>`:''}
     </div>`;
   }).join('');
-  return `<div class="sp-section">
-    <div class="sp-head">
-      <h2 class="sp-title">Лектори модуля</h2>
-      <span class="sp-count">${speakers.length} ${plural(speakers.length,'лектор','лектори','лекторів')}</span>
+  return`<div class="sp-sec">
+    <div class="sp-hd">
+      <h2 class="sp-h">Лектори модуля</h2>
+      <span class="sp-ct">${speakers.length} ${plural(speakers.length,'лектор','лектори','лекторів')}</span>
     </div>
     <div class="sp-grid">${cards}</div>
   </div>`;
 }
 
-function stateHTML(ico, title, desc) {
-  return `<div class="state">
-    <div class="state-ico">${ico}</div>
-    <div class="state-t">${title}</div>
-    <div class="state-d">${desc}</div>
-  </div>`;
+function stateH(ico,t,d){
+  return`<div class="state"><div class="state-i">${ico}</div><div class="state-t">${t}</div><div class="state-d">${d}</div></div>`;
+}
+function loadH(){
+  return`<div class="state"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><div class="state-t">Завантаження…</div><div class="state-d">Отримуємо дані з Google Sheets</div></div>`;
 }
 
-function loadingHTML() {
-  return `<div class="state">
-    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <div class="state-t">Завантаження розкладу…</div>
-    <div class="state-d">Отримуємо дані з Google Sheets</div>
-  </div>`;
-}
-
-/* ═══ LOAD MODULE ═════════════════════════════════════════════════════ */
-async function loadModule(mod) {
-  const container = document.getElementById('mod-content');
-  container.innerHTML = loadingHTML();
-
-  if (!mod.csvUrl) {
-    container.innerHTML = stateHTML('🔗','CSV не налаштовано',
-      `Додайте посилання на CSV у конфізурації "${mod.label}". <br><small style="font-size:10px;color:var(--tx-d)">File → Share → Publish to web → CSV → вставте URL у конфіг</small>`);
+/* ═══ LOAD MODULE ═══════════════════════════════════════════════════════ */
+async function loadModule(mod){
+  const el=document.getElementById('mod-content');
+  el.innerHTML=loadH();
+  if(!mod.csvUrl){
+    el.innerHTML=stateH('🔗','CSV не налаштовано',`Додайте посилання на CSV у конфізурації "${mod.label}".<br><small style="font-size:10px;color:var(--txd);display:block;margin-top:8px">File → Share → Publish to web → виберіть аркуш → CSV → вставте URL у COURSES config</small>`);
     return;
   }
-
-  const rows = await fetchCSV(mod.csvUrl);
-  if (!rows) {
-    container.innerHTML = stateHTML('⚠️','Не вдалося завантажити',
-      'Перевірте доступ до Google Sheets. Таблиця має бути опублікована (File → Share → Publish to web).');
+  const rows=await fetchCSV(mod.csvUrl);
+  if(!rows){
+    el.innerHTML=stateH('⚠️','Не вдалося завантажити','Переконайтесь, що таблиця опублікована: File → Share → Publish to web.');
     return;
   }
-
-  const valid = rows.filter(r => Object.values(r).some(v=>v&&v.trim()));
-  const speakers = extractSpeakers(valid);
-  container.innerHTML = renderSchedule(valid) + renderSpeakers(speakers);
-  container.classList.add('page-enter');
-  setTimeout(() => container.classList.remove('page-enter'), 400);
+  const valid=rows.filter(r=>Object.values(r).some(v=>v&&v.trim()));
+  const speakers=extractSpeakers(valid);
+  el.innerHTML=renderSchedule(valid)+renderSpeakers(speakers);
+  el.classList.add('pg-enter');
+  setTimeout(()=>el.classList.remove('pg-enter'),400);
 }
 
-/* ═══ RENDER COURSES ══════════════════════════════════════════════════ */
-function renderCourses() {
-  const grid = document.getElementById('courses-grid');
-  const totalMod = COURSES.reduce((a,c)=>a+c.modules.length,0);
-  document.getElementById('s-c').textContent = COURSES.length;
-  document.getElementById('s-m').textContent = totalMod;
+/* ═══ RENDER COURSES GRID ═══════════════════════════════════════════════ */
+function renderCourses(filterStatus='all'){
+  const grid=document.getElementById('courses-grid');
+  const noRes=document.getElementById('no-results');
+  const totalMod=COURSES.reduce((a,c)=>a+c.modules.length,0);
+  document.getElementById('s-c').textContent=COURSES.length;
+  document.getElementById('s-m').textContent=totalMod;
 
-  grid.innerHTML = COURSES.map((c,i) => `
-    <div class="c-card" role="listitem" tabindex="0" data-id="${c.id}" aria-label="Відкрити програму ${c.title}">
-      <div class="c-card-idx">${String(i+1).padStart(2,'0')} / ${String(COURSES.length).padStart(2,'0')}</div>
-      <span class="c-card-tag">${esc(c.tag)}</span>
-      <h3 class="c-card-title">${esc(c.title)} ${esc(c.edition||'')}</h3>
-      <p class="c-card-desc">${esc(c.desc)}</p>
-      <div class="c-card-meta">
-        <div><div class="c-meta-i">Формат</div><div class="c-meta-v">${esc(c.format)}</div></div>
-        <div><div class="c-meta-i">Тривалість</div><div class="c-meta-v">${esc(c.duration)}</div></div>
-        <div><div class="c-meta-i">Рік</div><div class="c-meta-v">${esc(c.year)}</div></div>
+  const filtered=filterStatus==='all'?COURSES:COURSES.filter(c=>c.status===filterStatus);
+  noRes.style.display=filtered.length?'none':'block';
+
+  // Dedupe: remove duplicate neuromarketing
+  const seen=new Set();
+  const deduped=COURSES.filter(c=>{if(seen.has(c.id))return false;seen.add(c.id);return true;});
+
+  grid.innerHTML=deduped.map((c,i)=>{
+    const st=STATUS[c.status]||STATUS.done;
+    const hidden=filterStatus!=='all'&&c.status!==filterStatus?'hidden-card':'';
+    return`<div class="c-card ${hidden}" role="listitem" tabindex="0" data-id="${c.id}" data-status="${c.status}" aria-label="Відкрити: ${c.title}">
+      <div class="c-status ${st.cls}"><span class="c-status-dot"></span>${st.label}</div>
+      <span class="c-tag">${esc(c.tag)}</span>
+      <h3 class="c-title">${esc(c.title)}${c.edition?' '+esc(c.edition):''}</h3>
+      <p class="c-desc">${esc(c.desc)}</p>
+      <div class="c-meta">
+        <div><div class="c-mi">Формат</div><div class="c-mv">${esc(c.format)}</div></div>
+        <div><div class="c-mi">Тривалість</div><div class="c-mv">${esc(c.duration)}</div></div>
+        <div><div class="c-mi">Рік</div><div class="c-mv">${esc(c.year)}</div></div>
       </div>
-      <span class="c-card-arr" aria-hidden="true">↗</span>
-    </div>`).join('');
+      <span class="c-arr">↗</span>
+    </div>`;
+  }).join('');
 
-  grid.querySelectorAll('.c-card').forEach(card => {
-    const open = () => openCourse(card.dataset.id);
-    card.addEventListener('click', open);
-    card.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') open(); });
+  grid.querySelectorAll('.c-card').forEach(card=>{
+    const open=()=>openCourse(card.dataset.id);
+    card.addEventListener('click',open);
+    card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')open();});
   });
 }
 
-/* ═══ OPEN COURSE ═════════════════════════════════════════════════════ */
-function openCourse(courseId) {
-  const course = COURSES.find(c => c.id === courseId);
-  if (!course) return;
-  currentCourse = course;
+/* ═══ FILTER ════════════════════════════════════════════════════════════ */
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.c-card').forEach(c=>{
+      c.classList.toggle('hidden-card',f!=='all'&&c.dataset.status!==f);
+    });
+    const visible=document.querySelectorAll('.c-card:not(.hidden-card)');
+    document.getElementById('no-results').style.display=visible.length?'none':'block';
+  });
+});
 
-  // URL
-  history.pushState({ course: course.slug }, '', `?course=${course.slug}`);
+/* ═══ OPEN COURSE ═══════════════════════════════════════════════════════ */
+function openCourse(courseId){
+  const course=COURSES.find(c=>c.id===courseId);
+  if(!course)return;
+  currentCourse=course;
+  history.pushState({course:course.slug},'',`?course=${course.slug}`);
 
-  // Header
-  document.getElementById('bc-cur').textContent = `${course.title} ${course.edition||''}`;
-  document.getElementById('c-tag').textContent   = course.tag;
-  document.getElementById('c-title').textContent = `${course.title} ${course.edition||''}`;
-  document.getElementById('c-meta').innerHTML = `
-    <span>${esc(course.format)}</span>
-    <span class="c-meta-dot">·</span>
-    <span>${esc(course.duration)}</span>
-    <span class="c-meta-dot">·</span>
-    <span>${esc(course.year)}</span>`;
+  document.getElementById('bc-cur').textContent=`${course.title}${course.edition?' '+course.edition:''}`;
+  document.getElementById('cp-tag').textContent=course.tag;
+  document.getElementById('cp-title').textContent=`${course.title}${course.edition?' '+course.edition:''}`;
 
-  // Module tabs
-  const tabsEl = document.getElementById('mod-tabs');
-  tabsEl.innerHTML = course.modules.map((m,i) =>
-    `<button class="mod-tab${i===0?' active':''}" role="tab" aria-selected="${i===0}"
-      data-mid="${m.id}">${esc(m.label)}</button>`).join('');
+  const st=STATUS[course.status]||STATUS.done;
+  document.getElementById('cp-meta').innerHTML=`
+    <span class="cp-status-badge ${st.cls}" style="background:rgba(0,0,0,.2);border:1px solid currentColor;border-radius:12px">${st.label}</span>
+    <span class="cp-dot">·</span><span>${esc(course.format)}</span>
+    <span class="cp-dot">·</span><span>${esc(course.duration)}</span>
+    <span class="cp-dot">·</span><span>${esc(course.year)}</span>`;
 
-  tabsEl.querySelectorAll('.mod-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabsEl.querySelectorAll('.mod-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});
-      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
-      const mod = course.modules.find(m=>m.id===tab.dataset.mid);
-      if (mod) {
-        history.replaceState({course:course.slug,module:mod.id},'',`?course=${course.slug}&module=${mod.id}`);
-        loadModule(mod);
-      }
+  // Tabs
+  const tabsEl=document.getElementById('mod-tabs');
+
+  if(!course.modules.length){
+    tabsEl.innerHTML='';
+    document.getElementById('mod-content').innerHTML=stateH('📅','Модулі не додані',
+      `Модулі для цієї програми ще не сконфігуровано. Додайте CSV посилання у масив modules у конфізі.<br><br><a href="${esc(course.url||'#')}" target="_blank" rel="noopener" style="color:var(--ac);font-size:12px">Детальніше на сайті КШДУ ↗</a>`);
+    showPage('course-page');
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+
+  tabsEl.innerHTML=course.modules.map((m,i)=>
+    `<button class="mt-tab${i===0?' active':''}" role="tab" aria-selected="${i===0}" data-mid="${m.id}">
+      ${esc(m.label)}
+      ${m.dates?`<span class="mt-dates">${esc(m.dates)}</span>`:''}
+    </button>`
+  ).join('');
+
+  tabsEl.querySelectorAll('.mt-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      tabsEl.querySelectorAll('.mt-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});
+      tab.classList.add('active');tab.setAttribute('aria-selected','true');
+      const m=course.modules.find(m=>m.id===tab.dataset.mid);
+      if(m){history.replaceState({course:course.slug,module:m.id},'',`?course=${course.slug}&module=${m.id}`);loadModule(m);}
     });
   });
 
   showPage('course-page');
 
-  // Respect URL module param
-  const params = new URLSearchParams(window.location.search);
-  const mParam = params.get('module');
-  let firstMod = course.modules[0];
-  if (mParam) {
-    const found = course.modules.find(m=>m.id===mParam);
-    if (found) {
-      firstMod = found;
-      tabsEl.querySelectorAll('.mod-tab').forEach(t=>{
-        const a = t.dataset.mid===mParam;
-        t.classList.toggle('active',a); t.setAttribute('aria-selected',String(a));
+  // Check URL for module param
+  const up=new URLSearchParams(window.location.search);
+  const mp=up.get('module');
+  let first=course.modules[0];
+  if(mp){
+    const found=course.modules.find(m=>m.id===mp);
+    if(found){
+      first=found;
+      tabsEl.querySelectorAll('.mt-tab').forEach(t=>{
+        const a=t.dataset.mid===mp;
+        t.classList.toggle('active',a);t.setAttribute('aria-selected',String(a));
       });
     }
   }
-  loadModule(firstMod);
+  loadModule(first);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ═══ PAGE SWITCH ═════════════════════════════════════════════════════ */
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => {
-    if (p.id === id) {
+/* ═══ PAGE SWITCH ═══════════════════════════════════════════════════════ */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>{
+    if(p.id===id){
       p.classList.remove('hidden');
-      void p.offsetWidth; // reflow
-      p.classList.add('page-enter');
-      setTimeout(()=>p.classList.remove('page-enter'),400);
-    } else {
+      void p.offsetWidth;
+      p.classList.add('pg-enter');
+      setTimeout(()=>p.classList.remove('pg-enter'),400);
+    }else{
       p.classList.add('hidden');
     }
   });
 }
 
-function goHome() {
-  history.pushState({},'',' ');
-  currentCourse = null;
+function goHome(){
+  history.pushState({},'',location.pathname);
+  currentCourse=null;
   showPage('home-page');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ═══ EVENTS ══════════════════════════════════════════════════════════ */
-document.getElementById('nav-home').addEventListener('click', ()=>{
-  if(currentCourse) goHome();
-});
-document.getElementById('nav-home').addEventListener('keydown', e=>{
-  if(e.key==='Enter'&&currentCourse) goHome();
-});
-document.getElementById('bc-home').addEventListener('click', goHome);
-document.getElementById('bc-home').addEventListener('keydown', e=>{if(e.key==='Enter')goHome();});
+/* ═══ EVENTS ════════════════════════════════════════════════════════════ */
+document.getElementById('nav-home').addEventListener('click',()=>{if(currentCourse)goHome();});
+document.getElementById('nav-home').addEventListener('keydown',e=>{if(e.key==='Enter'&&currentCourse)goHome();});
+document.getElementById('bc-home').addEventListener('click',goHome);
+document.getElementById('bc-home').addEventListener('keydown',e=>{if(e.key==='Enter')goHome();});
 
-document.getElementById('hero-btn').addEventListener('click', e=>{
+document.getElementById('hero-btn').addEventListener('click',e=>{
   e.preventDefault();
   document.getElementById('programs').scrollIntoView({behavior:'smooth'});
 });
-document.querySelector('.nav-links a[href="#programs"]')?.addEventListener('click', e=>{
+
+document.getElementById('nav-prog')?.addEventListener('click',e=>{
   e.preventDefault();
-  if (currentCourse) goHome();
-  setTimeout(()=>document.getElementById('programs')?.scrollIntoView({behavior:'smooth'}),currentCourse?350:0);
+  if(currentCourse){goHome();setTimeout(()=>document.getElementById('programs').scrollIntoView({behavior:'smooth'}),360);}
+  else document.getElementById('programs').scrollIntoView({behavior:'smooth'});
 });
 
 window.addEventListener('scroll',()=>{
-  document.getElementById('nav').style.boxShadow = window.scrollY>6?'0 2px 32px rgba(0,0,0,.55)':'none';
+  document.getElementById('nav').style.boxShadow=window.scrollY>4?'0 2px 36px rgba(0,0,0,.6)':'none';
 },{passive:true});
 
 window.addEventListener('popstate',()=>{
-  const p = new URLSearchParams(window.location.search);
-  const c = p.get('course');
-  if (c) openCourse(c); else { currentCourse=null; showPage('home-page'); }
+  const p=new URLSearchParams(location.search);
+  const c=p.get('course');
+  if(c)openCourse(c);else{currentCourse=null;showPage('home-page');}
 });
 
-/* ═══ INIT ════════════════════════════════════════════════════════════ */
-function init() {
+/* ═══ INIT ══════════════════════════════════════════════════════════════ */
+function init(){
   renderCourses();
-  const p = new URLSearchParams(window.location.search);
-  if (p.get('course')) openCourse(p.get('course'));
+  const p=new URLSearchParams(location.search);
+  if(p.get('course'))openCourse(p.get('course'));
 }
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
 </html>
